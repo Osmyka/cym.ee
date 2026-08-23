@@ -1,4 +1,5 @@
 import { getDictionary, localeLabels, localizedPath, type Locale } from "./i18n";
+import MobileNavigation, { type MobileNavId } from "./MobileNavigation";
 
 export default function Header({ locale, currentPath = "/" }: { locale: Locale; currentPath?: string }) {
   const dictionary = getDictionary(locale);
@@ -30,6 +31,21 @@ export default function Header({ locale, currentPath = "/" }: { locale: Locale; 
           </a>
         ))}
       </div>
+      <MobileNavigation
+        currentPath={currentPath}
+        ariaLabel={header.navigationAria}
+        items={([
+          ["about", "/#about", header.about],
+          ["activities", "/#activities", header.activities],
+          ["merch", "/merch", header.merch],
+          ["gallery", "/#gallery", header.gallery],
+          ["contact", "/#contact", header.contacts],
+        ] satisfies [MobileNavId, string, string][]).map(([id, path, label]) => ({
+          id,
+          href: localizedPath(locale, path),
+          label,
+        }))}
+      />
     </header>
   );
 }

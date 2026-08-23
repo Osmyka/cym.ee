@@ -676,3 +676,192 @@ section[id] {
     scroll-margin-top: 88px;
   }
 }
+
+/* Native-style mobile tab bar. */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width:760px) {
+  body {
+    padding-bottom: calc(82px + env(safe-area-inset-bottom));
+  }
+
+  .site-header .mobile-bottom-nav {
+    position: fixed;
+    z-index: 80;
+    left: 10px;
+    right: 10px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 2px;
+    min-height: 66px;
+    margin: 0;
+    padding: 6px;
+    color: #708096;
+    background: rgba(255,255,255,.94);
+    border: 1px solid rgba(13,50,101,.12);
+    border-radius: 22px;
+    box-shadow: 0 14px 40px rgba(7,25,49,.2);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+  }
+
+  .mobile-bottom-nav a {
+    min-width: 0;
+    min-height: 52px;
+    padding: 5px 2px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 16px;
+    color: inherit;
+    font-size: 9px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.01em;
+    text-align: center;
+    transition: color .18s ease, background .18s ease, transform .18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-bottom-nav a:active {
+    transform: scale(.96);
+  }
+
+  .mobile-bottom-nav a.active {
+    color: var(--navy);
+    background: #edf4fb;
+  }
+
+  .mobile-nav-label {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobile-nav-icon {
+    width: 22px;
+    height: 22px;
+    display: block;
+    position: relative;
+    color: currentColor;
+  }
+
+  .mobile-nav-icon-about:before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 8px;
+    width: 6px;
+    height: 6px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+  }
+
+  .mobile-nav-icon-about:after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    bottom: 2px;
+    width: 14px;
+    height: 8px;
+    border: 2px solid currentColor;
+    border-bottom: 0;
+    border-radius: 9px 9px 0 0;
+  }
+
+  .mobile-nav-icon-activities:before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 6px;
+    height: 6px;
+    border: 2px solid currentColor;
+    border-radius: 2px;
+    box-shadow: 10px 0 0 -2px #fff, 10px 0 0 0 currentColor, 0 10px 0 -2px #fff, 0 10px 0 0 currentColor, 10px 10px 0 -2px #fff, 10px 10px 0 0 currentColor;
+  }
+
+  .mobile-bottom-nav a.active .mobile-nav-icon-activities:before {
+    box-shadow: 10px 0 0 -2px #edf4fb, 10px 0 0 0 currentColor, 0 10px 0 -2px #edf4fb, 0 10px 0 0 currentColor, 10px 10px 0 -2px #edf4fb, 10px 10px 0 0 currentColor;
+  }
+
+  .mobile-nav-icon-merch:before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    bottom: 2px;
+    width: 16px;
+    height: 15px;
+    border: 2px solid currentColor;
+    border-radius: 4px;
+  }
+
+  .mobile-nav-icon-merch:after {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 7px;
+    width: 8px;
+    height: 7px;
+    border: 2px solid currentColor;
+    border-bottom: 0;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .mobile-nav-icon-gallery:before {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    border: 2px solid currentColor;
+    border-radius: 4px;
+  }
+
+  .mobile-nav-icon-gallery:after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    bottom: 6px;
+    width: 10px;
+    height: 7px;
+    border-left: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: skewY(-35deg) rotate(-8deg);
+  }
+
+  .mobile-nav-icon-contact:before {
+    content: "";
+    position: absolute;
+    inset: 3px 2px 4px;
+    border: 2px solid currentColor;
+    border-radius: 4px;
+  }
+
+  .mobile-nav-icon-contact:after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 12px;
+    height: 8px;
+    border-left: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(-45deg);
+  }
+}
+
+@media (max-width:350px) {
+  .site-header .mobile-bottom-nav {
+    left: 6px;
+    right: 6px;
+  }
+
+  .mobile-bottom-nav a {
+    font-size: 8px;
+  }
+}

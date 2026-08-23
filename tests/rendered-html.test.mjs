@@ -57,3 +57,25 @@ test("server-renders every public route in Ukrainian, Estonian and English", asy
     assert.match(await response.text(), expectedText, pathname);
   }
 });
+
+test("server-renders the localized mobile navigation", async () => {
+  const languages = [
+    { path: "/", prefix: "", labels: ["Про нас", "Напрямки", "Мерч", "Галерея", "Контакти"] },
+    { path: "/et", prefix: "/et", labels: ["Meist", "Tegevused", "Meened", "Galerii", "Kontakt"] },
+    { path: "/en", prefix: "/en", labels: ["About us", "Activities", "Merch", "Gallery", "Contacts"] },
+  ];
+
+  for (const language of languages) {
+    const response = await render(language.path);
+    assert.equal(response.status, 200, language.path);
+
+    const html = await response.text();
+    assert.match(html, /class="mobile-bottom-nav"/, language.path);
+    assert.match(html, new RegExp(`href="${language.prefix}/#about"`), language.path);
+    assert.match(html, new RegExp(`href="${language.prefix}/#activities"`), language.path);
+    assert.match(html, new RegExp(`href="${language.prefix}/merch"`), language.path);
+    assert.match(html, new RegExp(`href="${language.prefix}/#gallery"`), language.path);
+    assert.match(html, new RegExp(`href="${language.prefix}/#contact"`), language.path);
+    for (const label of language.labels) assert.match(html, new RegExp(`>${label}<`), language.path);
+  }
+});
