@@ -684,47 +684,48 @@ section[id] {
 
 @media (max-width:760px) {
   body {
-    padding-bottom: calc(82px + env(safe-area-inset-bottom));
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
   }
 
   .site-header .mobile-bottom-nav {
     position: fixed;
     z-index: 80;
-    left: 10px;
-    right: 10px;
-    bottom: max(8px, env(safe-area-inset-bottom));
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 2px;
-    min-height: 66px;
+    gap: 1px;
+    min-height: 72px;
     margin: 0;
-    padding: 6px;
+    padding: 6px 8px max(7px, env(safe-area-inset-bottom));
     color: #708096;
-    background: rgba(255,255,255,.94);
+    background: rgba(255,255,255,.97);
     border: 1px solid rgba(13,50,101,.12);
-    border-radius: 22px;
-    box-shadow: 0 14px 40px rgba(7,25,49,.2);
-    backdrop-filter: blur(18px) saturate(150%);
-    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    border-width: 1px 0 0;
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 -12px 34px rgba(7,25,49,.14);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
   }
 
   .mobile-bottom-nav a {
     min-width: 0;
-    min-height: 52px;
-    padding: 5px 2px 4px;
+    min-height: 58px;
+    padding: 3px 2px 2px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    border-radius: 16px;
+    gap: 3px;
+    border-radius: 15px;
     color: inherit;
-    font-size: 9px;
+    font-size: 9.5px;
     font-weight: 800;
     line-height: 1;
     letter-spacing: -.01em;
     text-align: center;
-    transition: color .18s ease, background .18s ease, transform .18s ease;
+    transition: color .18s ease, transform .18s ease;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -734,7 +735,16 @@ section[id] {
 
   .mobile-bottom-nav a.active {
     color: var(--navy);
-    background: #edf4fb;
+  }
+
+  .mobile-bottom-nav a.active .mobile-nav-icon-shell {
+    background: #eaf3fb;
+    box-shadow: 0 5px 12px rgba(13,50,101,.1), inset 0 0 0 1px rgba(13,50,101,.06);
+    transform: translateY(-1px);
+  }
+
+  .mobile-bottom-nav a.active .mobile-nav-label {
+    color: var(--navy);
   }
 
   .mobile-nav-label {
@@ -744,124 +754,29 @@ section[id] {
     white-space: nowrap;
   }
 
+  .mobile-nav-icon-shell {
+    width: 38px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
+  }
+
   .mobile-nav-icon {
-    width: 22px;
-    height: 22px;
+    width: 27px;
+    height: 27px;
     display: block;
-    position: relative;
-    color: currentColor;
-  }
-
-  .mobile-nav-icon-about:before {
-    content: "";
-    position: absolute;
-    top: 2px;
-    left: 8px;
-    width: 6px;
-    height: 6px;
-    border: 2px solid currentColor;
-    border-radius: 50%;
-  }
-
-  .mobile-nav-icon-about:after {
-    content: "";
-    position: absolute;
-    left: 4px;
-    bottom: 2px;
-    width: 14px;
-    height: 8px;
-    border: 2px solid currentColor;
-    border-bottom: 0;
-    border-radius: 9px 9px 0 0;
-  }
-
-  .mobile-nav-icon-activities:before {
-    content: "";
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 6px;
-    height: 6px;
-    border: 2px solid currentColor;
-    border-radius: 2px;
-    box-shadow: 10px 0 0 -2px #fff, 10px 0 0 0 currentColor, 0 10px 0 -2px #fff, 0 10px 0 0 currentColor, 10px 10px 0 -2px #fff, 10px 10px 0 0 currentColor;
-  }
-
-  .mobile-bottom-nav a.active .mobile-nav-icon-activities:before {
-    box-shadow: 10px 0 0 -2px #edf4fb, 10px 0 0 0 currentColor, 0 10px 0 -2px #edf4fb, 0 10px 0 0 currentColor, 10px 10px 0 -2px #edf4fb, 10px 10px 0 0 currentColor;
-  }
-
-  .mobile-nav-icon-merch:before {
-    content: "";
-    position: absolute;
-    left: 3px;
-    bottom: 2px;
-    width: 16px;
-    height: 15px;
-    border: 2px solid currentColor;
-    border-radius: 4px;
-  }
-
-  .mobile-nav-icon-merch:after {
-    content: "";
-    position: absolute;
-    top: 1px;
-    left: 7px;
-    width: 8px;
-    height: 7px;
-    border: 2px solid currentColor;
-    border-bottom: 0;
-    border-radius: 5px 5px 0 0;
-  }
-
-  .mobile-nav-icon-gallery:before {
-    content: "";
-    position: absolute;
-    inset: 2px;
-    border: 2px solid currentColor;
-    border-radius: 4px;
-  }
-
-  .mobile-nav-icon-gallery:after {
-    content: "";
-    position: absolute;
-    left: 6px;
-    bottom: 6px;
-    width: 10px;
-    height: 7px;
-    border-left: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: skewY(-35deg) rotate(-8deg);
-  }
-
-  .mobile-nav-icon-contact:before {
-    content: "";
-    position: absolute;
-    inset: 3px 2px 4px;
-    border: 2px solid currentColor;
-    border-radius: 4px;
-  }
-
-  .mobile-nav-icon-contact:after {
-    content: "";
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 12px;
-    height: 8px;
-    border-left: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(-45deg);
+    overflow: visible;
   }
 }
 
 @media (max-width:350px) {
-  .site-header .mobile-bottom-nav {
-    left: 6px;
-    right: 6px;
-  }
-
   .mobile-bottom-nav a {
     font-size: 8px;
+  }
+
+  .mobile-nav-icon-shell {
+    width: 34px;
   }
 }
