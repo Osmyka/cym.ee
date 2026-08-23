@@ -1,4 +1,4 @@
-import Link from "next/link";
+/* eslint-disable @next/next/no-html-link-for-pages -- роутер vinext падає на кліку по <Link>, тому звичайні <a> */
 import Header from "../Header";
 import BadmintonRegistration from "./BadmintonRegistration";
 
@@ -18,6 +18,6 @@ export default function BadmintonPage() {
       <BadmintonRegistration />
     </div></section>
     <section className="detail-gallery badminton-gallery"><img src="/assets/badminton-07-action.webp" alt="Гра у бадмінтон" loading="lazy" decoding="async" /><img src="/assets/badminton-08-group.jpeg" alt="Учасники тренування" loading="lazy" decoding="async" /><img src="/assets/badminton-02-action.webp" alt="Тренування з бадмінтону" loading="lazy" decoding="async" /><img src="/assets/badminton-new-01.webp" alt="Команда після тренування" loading="lazy" decoding="async" /><img src="/assets/badminton-new-02.jpeg" alt="Учасниці з ракетками" loading="lazy" decoding="async" /><img src="/assets/badminton-new-03.jpeg" alt="Гравці на корті" loading="lazy" decoding="async" /><img src="/assets/badminton-new-04.webp" alt="Команда бадмінтону" loading="lazy" decoding="async" /><img src="/assets/badminton-new-05.webp" alt="Учасники турніру" loading="lazy" decoding="async" /><img src="/assets/badminton-new-06.webp" alt="Спільне фото команди" loading="lazy" decoding="async" /></section>
-    <footer><span>© {new Date().getFullYear()} СУМ в Естонії</span><Link href="/">← На головну</Link></footer>
+    <footer><span>© {new Date().getFullYear()} СУМ в Естонії</span><a href="/">← На головну</a></footer>
   </main>;
 }
