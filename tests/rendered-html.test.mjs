@@ -71,6 +71,8 @@ test("server-renders the localized mobile navigation", async () => {
 
     const html = await response.text();
     assert.match(html, /class="mobile-bottom-nav"/, language.path);
+    assert.match(html, /<\/header><nav class="mobile-bottom-nav"/, language.path);
+    assert.doesNotMatch(html, /<header class="site-header">[\s\S]*class="mobile-bottom-nav"[\s\S]*<\/header>/, language.path);
     assert.equal((html.match(/class="mobile-nav-icon"/g) ?? []).length, 5, language.path);
     assert.match(html, new RegExp(`href="${language.prefix}/#about"`), language.path);
     assert.match(html, new RegExp(`href="${language.prefix}/#activities"`), language.path);

@@ -687,7 +687,7 @@ section[id] {
     padding-bottom: calc(80px + env(safe-area-inset-bottom));
   }
 
-  .site-header .mobile-bottom-nav {
+  .mobile-bottom-nav {
     position: fixed;
     z-index: 80;
     left: 0;
