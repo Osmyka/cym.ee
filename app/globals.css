@@ -652,3 +652,14 @@ main { padding-top:95px; }
     font-size: 43.7px;
   }
 }
+
+/* Фіксована шапка перекриває початок секції при переході по якорю. */
+section[id] {
+  scroll-margin-top: 104px;
+}
+
+@media (max-width: 760px) {
+  section[id] {
+    scroll-margin-top: 88px;
+  }
+}
