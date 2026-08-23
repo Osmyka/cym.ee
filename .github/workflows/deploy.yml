@@ -22,8 +22,10 @@ jobs:
           node-version: 22
           cache: npm
 
+      # package-lock.json згенерований на Windows і не містить частини optional-залежностей для Linux,
+      # через що `npm ci` падає на раннері. `npm install` довирішує ті самі версії з лок-файлу.
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Build
         run: npm run build
