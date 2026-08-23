@@ -19,7 +19,15 @@ npm run dev
 ```
 
 Сайт буде доступний за адресою [http://localhost:3000](http://localhost:3000).
-Локальні змінні середовища для поточної версії не потрібні.
+Без секретів сайт працює повністю, а форми у разі помилки відкривають
+підготовлений лист. Для прямого запису форм у Google Sheets створіть `.dev.vars`:
+
+```dotenv
+APPS_SCRIPT_URL=https://script.google.com/macros/s/DEPLOYMENT_ID/exec
+APPS_SCRIPT_TOKEN=довгий-випадковий-секрет
+```
+
+`.dev.vars` не можна комітити до репозиторію.
 
 ## Мови
 
@@ -45,6 +53,17 @@ npm test
 - `public/assets/` — оптимізовані зображення сайту
 - `tests/` — перевірки серверного рендерингу
 - `worker/` — Cloudflare Worker entry point
+- `integrations/google-apps-script/` — код і інструкція для запису заявок у Google Sheets
+
+## Форми та Google Sheets
+
+Форми школи, бадмінтону й трьох товарів надсилають JSON на `/api/order`.
+Cloudflare Worker перевіряє джерело та поля, а потім передає нормалізовані дані
+одному Google Apps Script. Якщо запис не вдався, браузер відкриває заповнений
+лист на `cym@ukraine.ee`, тому заявка не губиться.
+
+Одноразове налаштування Apps Script і секретів Worker описане у
+[`integrations/google-apps-script/README.md`](integrations/google-apps-script/README.md).
 
 ## Деплой
 
@@ -59,6 +78,10 @@ npm test
 
 - `CLOUDFLARE_API_TOKEN` — токен із дозволом *Edit Cloudflare Workers*
 - `CLOUDFLARE_ACCOUNT_ID` — ID акаунта Cloudflare
+
+Окремо у **Cloudflare Worker → Settings → Variables and Secrets** мають бути
+збережені зашифровані `APPS_SCRIPT_URL` та `APPS_SCRIPT_TOKEN`. Вони не є
+GitHub Actions secrets і не повинні потрапляти у вихідний код.
 
 Ручний деплой з локальної машини:
 

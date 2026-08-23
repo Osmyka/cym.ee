@@ -79,6 +79,10 @@ main { padding-top:95px; }
 .registration-form textarea { padding-top:14px; resize:vertical; }
 .registration-form input:focus,.registration-form textarea:focus { border-color:var(--navy); box-shadow:0 0 0 3px rgba(13,50,101,.1); }
 .registration-form .button { justify-content:space-between; border:0; cursor:pointer; font-family:inherit; }
+.registration-form .button[disabled] { opacity:.65; cursor:wait; }
+.form-honeypot { position:absolute!important; left:-10000px!important; width:1px!important; height:1px!important; overflow:hidden!important; }
+.form-delivery-error { margin:0; padding:14px 16px; border:1px solid #e6b7b7; border-radius:8px; background:#fff4f4; color:#7a2020; font-size:13px; line-height:1.55; }
+.form-delivery-error a { color:inherit; font-weight:900; text-decoration:underline; text-underline-offset:3px; }
 .registration-note { margin:0; padding:14px 16px; border-radius:8px; background:#edf4fa; color:var(--muted); font-size:12px; line-height:1.5; }
 .registration-success { min-height:70vh; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; }
 .registration-success h2 { margin-bottom:24px; }
