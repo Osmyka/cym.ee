@@ -38,6 +38,10 @@ test("server-renders each language with matching metadata and language links", a
     assert.match(html, new RegExp(`<html lang="${language.lang}">`, "i"), language.path);
     assert.match(html, new RegExp(`<title>${language.title}</title>`, "i"), language.path);
     assert.match(html, language.marker, language.path);
+    assert.match(html, /rel="icon" href="\/favicon-32x32\.png" sizes="32x32" type="image\/png"/i, language.path);
+    assert.match(html, /rel="apple-touch-icon" href="\/apple-touch-icon\.png"/i, language.path);
+    assert.match(html, /rel="manifest" href="\/site\.webmanifest"/i, language.path);
+    assert.doesNotMatch(html, /favicon\.svg/i, language.path);
     assert.match(html, /href="\/et"/);
     assert.match(html, /href="\/en"/);
     assert.doesNotMatch(html, /Your site is taking shape|codex-preview/i);
