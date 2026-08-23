@@ -21,6 +21,15 @@ npm run dev
 Сайт буде доступний за адресою [http://localhost:3000](http://localhost:3000).
 Локальні змінні середовища для поточної версії не потрібні.
 
+## Мови
+
+- українська — `/`, `/school`, `/badminton`, `/merch`
+- естонська — `/et`, `/et/school`, `/et/badminton`, `/et/merch`
+- англійська — `/en`, `/en/school`, `/en/badminton`, `/en/merch`
+
+Увесь текстовий контент зберігається у типізованих словниках `app/i18n.ts`,
+`app/i18n/et.ts` та `app/i18n/en.ts`.
+
 ## Перевірка
 
 ```bash
@@ -28,8 +37,7 @@ npm run lint
 npm test
 ```
 
-`npm test` збирає production-версію та перевіряє головну сторінку й маршрути
-`/school`, `/badminton` і `/merch`.
+`npm test` збирає production-версію та перевіряє всі публічні маршрути трьома мовами.
 
 ## Структура
 

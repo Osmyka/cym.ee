@@ -22,26 +22,33 @@ async function render(pathname = "/") {
   );
 }
 
-test("server-renders the СУМ Estonia website", async () => {
-  const response = await render();
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+test("server-renders each language with matching metadata and language links", async () => {
+  const languages = [
+    { path: "/", lang: "uk", title: "СУМ в Естонії — Разом сильніші", marker: /Разом/ },
+    { path: "/et", lang: "et", title: "Ukraina Noorte Liit Eestis — Koos oleme tugevamad", marker: /Koos oleme/ },
+    { path: "/en", lang: "en", title: "Ukrainian Youth Association in Estonia — Stronger together", marker: /Stronger/ },
+  ];
 
-  const html = await response.text();
-  assert.match(html, /<html lang="uk">/i);
-  assert.match(html, /<title>СУМ в Естонії — Разом сильніші<\/title>/i);
-  assert.match(html, /Спілка української молоді в Естонії/);
-  assert.match(html, /href="\/school"/);
-  assert.match(html, /href="\/badminton"/);
-  assert.match(html, /href="\/merch"/);
-  assert.doesNotMatch(html, /Your site is taking shape|codex-preview/i);
+  for (const language of languages) {
+    const response = await render(language.path);
+    assert.equal(response.status, 200, language.path);
+    assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+
+    const html = await response.text();
+    assert.match(html, new RegExp(`<html lang="${language.lang}">`, "i"), language.path);
+    assert.match(html, new RegExp(`<title>${language.title}</title>`, "i"), language.path);
+    assert.match(html, language.marker, language.path);
+    assert.match(html, /href="\/et"/);
+    assert.match(html, /href="\/en"/);
+    assert.doesNotMatch(html, /Your site is taking shape|codex-preview/i);
+  }
 });
 
-test("server-renders all public site routes", async () => {
+test("server-renders every public route in Ukrainian, Estonian and English", async () => {
   const routes = [
-    ["/school", /Школа/],
-    ["/badminton", /Бадмінтон/],
-    ["/merch", /Мерч/],
+    ["/school", /Школа/], ["/badminton", /Бадмінтон/], ["/merch", /Мерч/],
+    ["/et/school", /nädalavahetuskool/i], ["/et/badminton", /Sulgpall/], ["/et/merch", /Meened/],
+    ["/en/school", /weekend school/i], ["/en/badminton", /Badminton/], ["/en/merch", /Merch/],
   ];
 
   for (const [pathname, expectedText] of routes) {
