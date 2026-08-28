@@ -62,6 +62,20 @@ test("server-renders every public route in Ukrainian, Estonian and English", asy
   }
 });
 
+test("redirects legacy about links to the current localized about section", async () => {
+  const routes = [
+    ["/about", "/#about"],
+    ["/et/about", "/et/#about"],
+    ["/en/about", "/en/#about"],
+  ];
+
+  for (const [pathname, destination] of routes) {
+    const response = await render(pathname);
+    assert.equal(response.status, 307, pathname);
+    assert.equal(response.headers.get("location"), destination, pathname);
+  }
+});
+
 test("server-renders the localized mobile navigation", async () => {
   const languages = [
     { path: "/", prefix: "", labels: ["Про нас", "Напрямки", "Мерч", "Галерея", "Контакти"] },
