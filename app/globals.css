@@ -18,12 +18,15 @@ main { overflow:hidden; } .site-header { height:88px; padding:12px max(5vw, 28px
 .language-switcher a:hover { color:var(--navy); }
 .language-switcher a.active { color:#fff; background:var(--navy); }
 @media (max-width:760px) {
-  .site-header { gap:12px; }
+  .site-header { gap:8px; padding-left:14px; padding-right:14px; }
+  .site-header .logo { min-width:0; gap:7px; }
+  .site-header .logo img { width:30px; height:43px; flex:0 0 auto; }
+  .site-header .logo span { display:block; min-width:0; }
+  .site-header .logo b,.site-header .logo small { white-space:nowrap; }
+  .site-header .logo b { font-size:clamp(9px,3vw,13px); letter-spacing:-.04em; }
+  .site-header .logo small { margin-top:3px; font-size:clamp(8px,2.4vw,11px); }
   .language-switcher { margin-left:auto; }
   .language-switcher a { min-width:29px; padding:6px; }
-}
-@media (max-width:420px) {
-  .site-header .logo span { display:none; }
 }
 .site-header:after { content:""; position:absolute; left:0; right:0; bottom:-7px; height:7px; background:linear-gradient(90deg,var(--navy) 0 58%,var(--yellow) 58% 82%,var(--green) 82%); }
 .site-header { position:fixed; left:0; right:0; width:100%; box-shadow:0 10px 30px rgba(13,50,101,.08); }
