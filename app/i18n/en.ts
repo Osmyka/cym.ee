@@ -10,6 +10,7 @@ const en: Dictionary = {
     copyright: "Ukrainian Youth Association in Estonia",
     home: "← Back to home",
     languageLabel: "Choose language",
+    madeBy: "Built by",
   },
   header: {
     homeAria: "Ukrainian Youth Association in Estonia — home",

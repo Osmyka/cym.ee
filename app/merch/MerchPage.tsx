@@ -23,6 +23,6 @@ export default function MerchPage({ locale }: { locale: Locale }) {
         })}
       </div>
     </section>
-    <footer><span>© {new Date().getFullYear()} {dictionary.common.copyright}</span><a href={localizedPath(locale)}>{dictionary.common.home}</a></footer>
+    <footer><span>© {new Date().getFullYear()} {dictionary.common.copyright}</span><span className="footer-credit">{dictionary.common.madeBy} <a href="https://osmyka.com/" target="_blank" rel="noopener noreferrer">software studio Osmyka</a></span><a href={localizedPath(locale)}>{dictionary.common.home}</a></footer>
   </main>;
 }

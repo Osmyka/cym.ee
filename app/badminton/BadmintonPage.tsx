@@ -33,6 +33,6 @@ export default function BadmintonPage({ locale }: { locale: Locale }) {
       <BadmintonRegistration copy={copy.registration} />
     </div></section>
     <section className="detail-gallery badminton-gallery">{galleryImages.map((image, index) => <img src={image} alt={copy.galleryAlts[index]} loading="lazy" decoding="async" key={image} />)}</section>
-    <footer><span>© {new Date().getFullYear()} {dictionary.common.copyright}</span><a href={localizedPath(locale)}>{dictionary.common.home}</a></footer>
+    <footer><span>© {new Date().getFullYear()} {dictionary.common.copyright}</span><span className="footer-credit">{dictionary.common.madeBy} <a href="https://osmyka.com/" target="_blank" rel="noopener noreferrer">software studio Osmyka</a></span><a href={localizedPath(locale)}>{dictionary.common.home}</a></footer>
   </main>;
 }
