@@ -132,7 +132,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
 
       <section className="partners-section"><div className="section-label">{copy.partnersLabel}</div><img src="/assets/partners-strip.webp" alt={copy.partnersAlt} loading="lazy" decoding="async" /></section>
 
-      <footer><span>© {new Date().getFullYear()} {dictionary.common.copyright}</span><span>{copy.footerMotto}</span><a href="#top">{copy.backToTop}</a></footer>
+      <footer><span>© {new Date().getFullYear()} {dictionary.common.copyright}</span><span>{copy.footerMotto}</span><span className="footer-credit">{dictionary.common.madeBy} <a href="https://osmyka.com/" target="_blank" rel="noopener noreferrer">software studio Osmyka</a></span><a href="#top">{copy.backToTop}</a></footer>
     </main>
   );
 }
