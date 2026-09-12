@@ -10,6 +10,7 @@ const et: Dictionary = {
     copyright: "Ukraina Noorte Liit Eestis",
     home: "← Avalehele",
     languageLabel: "Vali keel",
+    madeBy: "Arendus —",
   },
   header: {
     homeAria: "Ukraina Noorte Liit Eestis — avaleht",

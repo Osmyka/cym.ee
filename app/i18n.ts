@@ -50,6 +50,7 @@ export type Dictionary = {
     copyright: string;
     home: string;
     languageLabel: string;
+    madeBy: string;
   };
   header: {
     homeAria: string;
@@ -209,6 +210,7 @@ const uk: Dictionary = {
     copyright: "СУМ в Естонії",
     home: "← На головну",
     languageLabel: "Оберіть мову",
+    madeBy: "Розробка —",
   },
   header: {
     homeAria: "СУМ в Естонії — головна",
