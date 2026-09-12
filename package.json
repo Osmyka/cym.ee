@@ -1,6 +1,14 @@
 {
   "name": "cym-ee-website",
   "version": "1.0.0",
+  "description": "Офіційний сайт Спілки української молоді в Естонії",
+  "license": "MIT",
+  "author": "Osmyka OÜ",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Osmyka/cym.ee.git"
+  },
+  "homepage": "https://cym.ee",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
