@@ -109,6 +109,7 @@ export type Dictionary = {
     heroAlt: string;
     sectionLabel: string;
     sectionTitle: [string, string];
+    about: [string, string];
     subjects: string[];
     info: {
       ageLabel: string;
@@ -149,10 +150,14 @@ export type Dictionary = {
       title: string;
       selectedProduct: string;
       shirtType: string;
+      color: string;
+      navy: string;
+      blue: string;
       uniformType: string;
       women: string;
       men: string;
       teen: string;
+      kids: string;
       child: string;
       adult: string;
       childSuffix: string;
@@ -174,11 +179,13 @@ export type Dictionary = {
       sizeGuideTitle: [string, string];
       poloWomen: string;
       poloMen: string;
+      poloKids: string;
       allMeasurements: string;
       sizeColumn: string;
       widthColumn: string;
       lengthColumn: string;
       poloMeasureNote: string;
+      poloKidsMeasureNote: string;
       uniformChild: string;
       uniformAdult: string;
       parameterColumn: string;
@@ -310,6 +317,10 @@ const uk: Dictionary = {
     heroAlt: "Учні та команда школи СУМ",
     sectionLabel: "Навчання і розвиток",
     sectionTitle: ["Зростаємо", "українськими."],
+    about: [
+      "Школа вихідного дня «СУМ» — верифікований український освітній осередок за кордоном. Школа працює за програмою українознавчого компонента, затвердженою Міністерством освіти і науки України. Результати навчання учнів можуть бути офіційно визнані та зараховані в українській системі освіти відповідно до чинного Порядку.",
+      "Школа також зареєстрована в естонській системі освіти EHIS (Eesti Hariduse Infosüsteem) як школа за інтересами (huvikool). Діяльність школи підтримується Фондом інтеграції Естонії — Integratsiooni Sihtasutus у межах програми підтримки шкіл, які забезпечують мовне та культурне навчання дітей національних меншин.",
+    ],
     subjects: ["Українська мова, читання та письмо", "Історія України й українознавство", "СУМознавство та українські традиції", "Вокал, хореографія і творчі заняття"],
     info: { ageLabel: "Вік дітей", ageValue: "6–18 років", timeLabel: "Час занять", timeValue: "Субота · 10:00–14:00", placeLabel: "Місце", priceLabel: "Вартість", priceValue: "Заняття у Школі є безкоштовними" },
     galleryAlt: "Момент зі шкільного життя",
@@ -337,12 +348,12 @@ const uk: Dictionary = {
   merch: {
     sectionLabel: "Обрати своє", title: ["Мерч, що", "говорить за нас."], lead: "Речі, що об’єднують спільноту й допомагають підтримувати діяльність Спілки української молоді в Естонії.",
     products: [
-      { name: "Футболка СУМ", description: "Темно-синя футболка-поло з емблемою СУМ в Естонії." },
+      { name: "Футболка СУМ", description: "Футболка-поло з емблемою СУМ в Естонії. Доступна в темно-синьому та синьому кольорах." },
       { name: "Однострій СУМівця", description: "Однострій для юнака чи юначки — сорочка СУМівця для дітей і дорослих." },
       { name: "Футболка бадмінтон СУМ", description: "Чорна спортивна футболка СУМ із прізвищем гравця на спині." },
     ],
     order: {
-      order: "Замовити", closeForm: "Закрити форму", successLabel: "Надіслано ✓", thanks: "Дякуємо!", successText: "Замовлення надіслано до таблиці. Команда зв’яжеться з вами щодо оплати й отримання.", close: "Закрити", eyebrow: "Мерч СУМ в Естонії", title: "Замовити", selectedProduct: "Обраний товар", shirtType: "Тип футболки", uniformType: "Тип однострою", women: "Жіноча", men: "Чоловіча", teen: "Підліткова", child: "Дитячий", adult: "Дорослий", childSuffix: "дитяча", adultSuffix: "доросла", size: "Розмір", chooseSize: "Оберіть розмір", openSizeGuide: "Відкрити розмірну сітку", quantity: "Кількість", participantName: "Імʼя та прізвище учасника колективу", email: "Email", details: "Додати деталі замовлення", submit: "Надіслати запит", sending: "Надсилаємо…", fallbackText: "Автоматичне надсилання не спрацювало. Ми відкрили підготовлений лист — надішліть його, щоб заявка не загубилася.", fallbackLink: "Відкрити лист ще раз", note: "Після підтвердження замовлення команда зв’яжеться з вами щодо оплати й отримання.", closeSizeGuide: "Закрити розмірну сітку", sizeGuide: "Розмірна сітка", sizeGuideTitle: ["Знайди свій", "розмір."], poloWomen: "Жіноча футболка-поло", poloMen: "Чоловіча футболка-поло", allMeasurements: "Усі виміри в сантиметрах", sizeColumn: "Розмір", widthColumn: "Ширина виробу", lengthColumn: "Довжина виробу", poloMeasureNote: "Ширину вимірюють по лінії грудей на рівно розкладеному виробі.", uniformChild: "Дитячий однострій", uniformAdult: "Дорослий однострій", parameterColumn: "Параметр", uniformRows: ["Ширина сорочки по лінії грудей", "Ширина спинки", "Довжина рукава", "Довжина сорочки", "Обхват шиї"], uniformMeasureNote: "Порівняйте виміри з одягом, який добре сидить, щоб точніше обрати розмір.", sizeGuideAlt: "Розмірна сітка",
+      order: "Замовити", closeForm: "Закрити форму", successLabel: "Надіслано ✓", thanks: "Дякуємо!", successText: "Замовлення надіслано до таблиці. Команда зв’яжеться з вами щодо оплати й отримання.", close: "Закрити", eyebrow: "Мерч СУМ в Естонії", title: "Замовити", selectedProduct: "Обраний товар", shirtType: "Тип футболки", color: "Колір", navy: "Темно-синій", blue: "Синій", uniformType: "Тип однострою", women: "Жіноча", men: "Чоловіча", teen: "Підліткова", kids: "Дитяча", child: "Дитячий", adult: "Дорослий", childSuffix: "дитяча", adultSuffix: "доросла", size: "Розмір", chooseSize: "Оберіть розмір", openSizeGuide: "Відкрити розмірну сітку", quantity: "Кількість", participantName: "Імʼя та прізвище учасника колективу", email: "Email", details: "Додати деталі замовлення", submit: "Надіслати запит", sending: "Надсилаємо…", fallbackText: "Автоматичне надсилання не спрацювало. Ми відкрили підготовлений лист — надішліть його, щоб заявка не загубилася.", fallbackLink: "Відкрити лист ще раз", note: "Після підтвердження замовлення команда зв’яжеться з вами щодо оплати й отримання.", closeSizeGuide: "Закрити розмірну сітку", sizeGuide: "Розмірна сітка", sizeGuideTitle: ["Знайди свій", "розмір."], poloWomen: "Жіноча футболка-поло", poloMen: "Чоловіча футболка-поло", poloKids: "Дитяча футболка-поло", allMeasurements: "Усі виміри в сантиметрах", sizeColumn: "Розмір", widthColumn: "Ширина виробу", lengthColumn: "Довжина виробу", poloMeasureNote: "Ширину вимірюють по лінії грудей на рівно розкладеному виробі.", poloKidsMeasureNote: "Дані наведені з інформативною метою і можуть відхилятися від вказаних у допустимих межах.", uniformChild: "Дитячий однострій", uniformAdult: "Дорослий однострій", parameterColumn: "Параметр", uniformRows: ["Ширина сорочки по лінії грудей", "Ширина спинки", "Довжина рукава", "Довжина сорочки", "Обхват шиї"], uniformMeasureNote: "Порівняйте виміри з одягом, який добре сидить, щоб точніше обрати розмір.", sizeGuideAlt: "Розмірна сітка",
     },
   },
 };

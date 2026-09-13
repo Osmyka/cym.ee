@@ -49,6 +49,9 @@ main { padding-top:95px; }
 .badminton-hero em { color:#52328f; }
 .detail-body { padding:105px max(7vw,28px); display:grid; grid-template-columns:1fr 1fr; gap:11%; background:white; }
 .detail-body h2 { margin-top:32px; }
+.school-about { margin-top:28px; max-width:34em; color:var(--muted); font-size:16px; line-height:1.65; }
+.school-about p { margin:0 0 16px; }
+.school-about p:last-child { margin-bottom:0; }
 .detail-copy { padding-top:5px; }
 .feature-list { list-style:none; padding:0; margin:0 0 34px; border-top:1px solid #e1e7ed; }
 .feature-list li { padding:15px 5px; border-bottom:1px solid #e1e7ed; color:var(--navy); font-size:15px; font-weight:800; }
@@ -114,6 +117,7 @@ main { padding-top:95px; }
   .detail-hero > img { max-height:300px; }
   .detail-body { padding:72px 24px; display:block; }
   .detail-copy { margin-top:45px; }
+  .school-about { margin-top:22px; font-size:15px; line-height:1.6; }
   .info-panel { grid-template-columns:1fr; }
   .info-panel div { border-right:0; }
   .detail-gallery { padding:0 24px 72px; grid-template-columns:1fr; }
@@ -528,6 +532,13 @@ main { padding-top:95px; }
 .shirt-type legend { padding:0 6px; color:var(--navy); font-size:13px; font-weight:900; }
 .shirt-type label { display:flex; grid-template-columns:none; align-items:center; gap:9px; font-size:14px; cursor:pointer; }
 .shirt-type input { width:18px; height:18px; margin:0; accent-color:var(--navy); }
+.color-options { margin:0; padding:16px 18px 18px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; border:1px solid #d5dee7; border-radius:14px; }
+.color-options legend { padding:0 6px; color:var(--navy); font-size:13px; font-weight:900; }
+.color-options label { display:grid; gap:10px; margin:0; padding:10px; border:2px solid #d7e0e8; border-radius:14px; background:#fff; color:var(--navy); font-size:14px; font-weight:800; text-align:center; cursor:pointer; transition:border-color .18s ease, box-shadow .18s ease; }
+.color-options label:hover { border-color:#aebccc; }
+.color-options label.active { border-color:var(--navy); box-shadow:0 0 0 1px var(--navy); }
+.color-options input { position:absolute; opacity:0; pointer-events:none; }
+.color-options img { width:100%; aspect-ratio:16/11; object-fit:contain; border-radius:8px; background:#f3f6f9; }
 .size-guide-link { width:max-content; padding:0; border:0; border-bottom:1px solid currentColor; background:none; color:var(--navy); font:inherit; font-size:14px; font-weight:900; cursor:pointer; }
 .size-guide-overlay { position:fixed; inset:0; z-index:120; display:grid; place-items:center; padding:24px; background:rgba(7,25,49,.8); backdrop-filter:blur(4px); }
 .size-guide-modal { width:min(980px,100%); max-height:calc(100vh - 48px); padding:52px; overflow-y:auto; position:relative; border-radius:26px; background:#fbfaf6; box-shadow:0 30px 90px rgba(0,0,0,.32); }
@@ -579,6 +590,8 @@ main { padding-top:95px; }
   .registration-form .button { width:100%; min-height:56px; }
   .shirt-type { gap:10px; padding:14px; }
   .shirt-type label { min-height:42px; padding:8px 10px; }
+  .color-options { gap:10px; padding:14px; }
+  .color-options label { min-height:0; padding:8px; font-size:13px; }
   .size-guide-link { min-height:44px; }
 
   .size-guide-overlay { padding:0; }

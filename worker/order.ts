@@ -87,7 +87,11 @@ function normalizeBadminton(values: JsonRecord): NormalizedSubmission {
   };
 }
 
-const poloSizes = ["XS (42)", "S (44)", "M (46)", "L (48)", "XL (50)", "2XL (52)", "3XL (54–56)", "XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"];
+const poloSizes = [
+  "XS (42)", "S (44)", "M (46)", "L (48)", "XL (50)", "2XL (52)", "3XL (54–56)",
+  "XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL",
+  "1/2", "3/4", "5/6", "7/8", "9/11", "12/14",
+];
 const uniformSizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
 const badmintonSizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "128", "134", "140", "146", "152", "158", "164", "170"];
 
@@ -98,10 +102,21 @@ function normalizeMerch(productId: unknown, values: JsonRecord): NormalizedSubmi
   const comment = field(values, "comment", 2_000, false);
 
   if (productId === "polo") {
-    const type = choice(values, "fit", ["women", "men"]);
+    const type = choice(values, "fit", ["women", "men", "kids"]);
+    const color = choice(values, "color", ["navy", "blue"]);
+    const typeLabels = { women: "Жіноча", men: "Чоловіча", kids: "Дитяча" } as const;
+    const colorLabels = { navy: "Темно-синій", blue: "Синій" } as const;
     return {
       target: "merch_polo",
-      values: [type === "women" ? "Жіноча" : "Чоловіча", choice(values, "size", poloSizes), quantity, name, contactEmail, comment],
+      values: [
+        colorLabels[color as keyof typeof colorLabels],
+        typeLabels[type as keyof typeof typeLabels],
+        choice(values, "size", poloSizes),
+        quantity,
+        name,
+        contactEmail,
+        comment,
+      ],
     };
   }
 
