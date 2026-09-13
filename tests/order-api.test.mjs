@@ -83,7 +83,7 @@ test("badminton and all three merch products route to their own sheets", async (
       ...common,
       kind: "merch",
       productId: "polo",
-      values: { fit: "women", size: "M (46)", quantity: "2", name: "Olena Test", email: "olena@example.com", comment: "" },
+      values: { fit: "women", color: "navy", size: "M (46)", quantity: "2", name: "Olena Test", email: "olena@example.com", comment: "" },
     },
     {
       ...common,
@@ -106,7 +106,7 @@ test("badminton and all three merch products route to their own sheets", async (
 
   assert.deepEqual(forwarded.map(({ target, values }) => ({ target, values })), [
     { target: "badminton", values: ["Ivan Test", 30, "+372 5555", "ivan@example.com"] },
-    { target: "merch_polo", values: ["Жіноча", "M (46)", 2, "Olena Test", "olena@example.com", ""] },
+    { target: "merch_polo", values: ["Темно-синій", "Жіноча", "M (46)", 2, "Olena Test", "olena@example.com", ""] },
     { target: "merch_uniform", values: ["Дорослий", "XL", 1, "Petro Test", "petro@example.com", "Tallinn"] },
     { target: "merch_badminton", values: ["Підліткова", "164", 3, "Sofia Test", "sofia@example.com", ""] },
   ]);

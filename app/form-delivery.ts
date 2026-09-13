@@ -15,6 +15,7 @@ type SubmitResult = { ok: true } | { ok: false; mailto: string };
 const fallbackLabels: Record<string, string> = {
   product: "Товар",
   fit: "Тип футболки",
+  color: "Колір",
   category: "Тип однострою",
   shirtType: "Тип футболки",
   size: "Розмір",

@@ -21,7 +21,13 @@ export default function SchoolPage({ locale }: { locale: Locale }) {
       <img src="/assets/school-team.webp" alt={copy.heroAlt} />
     </section>
     <section className="detail-body">
-      <div><div className="section-label">{copy.sectionLabel}</div><h2>{copy.sectionTitle[0]}<br /><i>{copy.sectionTitle[1]}</i></h2></div>
+      <div>
+        <div className="section-label">{copy.sectionLabel}</div>
+        <h2>{copy.sectionTitle[0]}<br /><i>{copy.sectionTitle[1]}</i></h2>
+        <div className="school-about">
+          {copy.about.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        </div>
+      </div>
       <div className="detail-copy">
         <ul className="feature-list">{copy.subjects.map((subject) => <li key={subject}>{subject}</li>)}</ul>
         <div className="info-panel">

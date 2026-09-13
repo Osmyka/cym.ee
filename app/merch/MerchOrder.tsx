@@ -6,6 +6,8 @@ import type { Dictionary } from "../i18n";
 
 export type ProductId = "polo" | "uniform" | "badminton";
 type SubmitStatus = "idle" | "submitting" | "sent" | "fallback";
+type PoloFit = "women" | "men" | "kids";
+type PoloColor = "navy" | "blue";
 
 type Product = {
   id: ProductId;
@@ -22,6 +24,16 @@ const poloSizeRows = {
     ["XS", "45", "64"], ["S", "47", "67"], ["M", "50", "68"], ["L", "53", "71,5"],
     ["XL", "55", "74"], ["2XL", "58", "75"], ["3XL", "62", "78"], ["4XL", "66–67", "80"], ["5XL", "72–73", "80"],
   ],
+  kids: [
+    ["1/2", "30", "39"], ["3/4", "33", "42"], ["5/6", "37", "46"],
+    ["7/8", "39", "51"], ["9/11", "42", "57"], ["12/14", "44", "64"],
+  ],
+};
+
+const poloSizesByFit: Record<PoloFit, string[]> = {
+  women: ["XS (42)", "S (44)", "M (46)", "L (48)", "XL (50)", "2XL (52)", "3XL (54–56)"],
+  men: ["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"],
+  kids: ["1/2", "3/4", "5/6", "7/8", "9/11", "12/14"],
 };
 
 const uniformSizeCharts = {
@@ -53,12 +65,12 @@ export default function MerchOrder({ product, copy }: { product: Product; copy: 
   const [fallbackHref, setFallbackHref] = useState("");
   const [startedAt, setStartedAt] = useState(0);
   const [fit, setFit] = useState<"women" | "men">("women");
+  const [poloFit, setPoloFit] = useState<PoloFit>("women");
+  const [poloColor, setPoloColor] = useState<PoloColor>("navy");
   const [badmintonFit, setBadmintonFit] = useState<"men" | "women" | "teen">("men");
   const [sizeOpen, setSizeOpen] = useState(false);
 
-  const shirtSizes = fit === "women"
-    ? ["XS (42)", "S (44)", "M (46)", "L (48)", "XL (50)", "2XL (52)", "3XL (54–56)"]
-    : ["XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"];
+  const shirtSizes = poloSizesByFit[poloFit];
   const uniformSizes = fit === "women" ? ["S", "M", "L"] : ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
   const badmintonSizes = badmintonFit === "men"
     ? ["S", "M", "L", "XL", "XXL", "XXXL"]
@@ -71,6 +83,9 @@ export default function MerchOrder({ product, copy }: { product: Product; copy: 
     teen: "/assets/size-kids.webp",
   };
   const badmintonFitLabels = { men: copy.men, women: copy.women, teen: copy.teen };
+  const poloFitLabels = { women: copy.women, men: copy.men, kids: copy.kids } as const;
+  const poloFitTitle = { women: copy.poloWomen, men: copy.poloMen, kids: copy.poloKids } as const;
+  const poloColorLabels = { navy: copy.navy, blue: copy.blue } as const;
 
   function openForm() {
     setStatus("idle");
@@ -111,8 +126,16 @@ export default function MerchOrder({ product, copy }: { product: Product; copy: 
             <label className="form-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
             <input type="hidden" name="product" value={product.name} />
             {product.id === "polo" && <>
-              <fieldset className="shirt-type"><legend>{copy.shirtType}</legend><label><input type="radio" name="fit" value="women" checked={fit === "women"} onChange={() => setFit("women")} /><span>{copy.women}</span></label><label><input type="radio" name="fit" value="men" checked={fit === "men"} onChange={() => setFit("men")} /><span>{copy.men}</span></label></fieldset>
-              <label>{copy.size}<select name="size" required defaultValue="" key={fit}><option value="" disabled>{copy.chooseSize}</option>{shirtSizes.map((size) => <option key={size}>{size}</option>)}</select></label>
+              <fieldset className="shirt-type"><legend>{copy.shirtType}</legend>{(["women", "men", "kids"] as const).map((value) => <label key={value}><input type="radio" name="fit" value={value} checked={poloFit === value} onChange={() => setPoloFit(value)} /><span>{poloFitLabels[value]}</span></label>)}</fieldset>
+              <fieldset className="color-options"><legend>{copy.color}</legend>{([
+                { value: "navy" as const, image: "/assets/sum-polo-navy-preview.png" },
+                { value: "blue" as const, image: "/assets/sum-polo-blue-preview.png" },
+              ]).map((option) => <label key={option.value} className={poloColor === option.value ? "active" : ""}>
+                <input type="radio" name="color" value={option.value} checked={poloColor === option.value} onChange={() => setPoloColor(option.value)} />
+                <img src={option.image} alt={poloColorLabels[option.value]} loading="lazy" decoding="async" />
+                <span>{poloColorLabels[option.value]}</span>
+              </label>)}</fieldset>
+              <label>{copy.size}<select name="size" required defaultValue="" key={poloFit}><option value="" disabled>{copy.chooseSize}</option>{shirtSizes.map((size) => <option key={size}>{size}</option>)}</select></label>
             </>}
             {product.id === "uniform" && <>
               <fieldset className="shirt-type"><legend>{copy.uniformType}</legend><label><input type="radio" name="category" value="women" checked={fit === "women"} onChange={() => setFit("women")} /><span>{copy.child}</span></label><label><input type="radio" name="category" value="men" checked={fit === "men"} onChange={() => setFit("men")} /><span>{copy.adult}</span></label></fieldset>
@@ -139,7 +162,7 @@ export default function MerchOrder({ product, copy }: { product: Product; copy: 
           <p className="section-label">{copy.sizeGuide}</p>
           <h2 id="size-guide-title">{copy.sizeGuideTitle[0]}<br /><i>{copy.sizeGuideTitle[1]}</i></h2>
           {product.id === "badminton" && <><div className="size-guide-tabs" role="tablist">{(["men", "women", "teen"] as const).map((value) => <button key={value} type="button" role="tab" aria-selected={badmintonFit === value} className={badmintonFit === value ? "active" : ""} onClick={() => setBadmintonFit(value)}>{badmintonFitLabels[value]}</button>)}</div><div className="size-guide-image"><img src={badmintonSizeImages[badmintonFit]} alt={`${copy.sizeGuideAlt} — ${badmintonFitLabels[badmintonFit]}`} decoding="async" /></div></>}
-          {product.id === "polo" && <><div className="size-guide-tabs" role="tablist"><button type="button" role="tab" aria-selected={fit === "women"} className={fit === "women" ? "active" : ""} onClick={() => setFit("women")}>{copy.women}</button><button type="button" role="tab" aria-selected={fit === "men"} className={fit === "men" ? "active" : ""} onClick={() => setFit("men")}>{copy.men}</button></div><div className="native-size-card"><div className="native-size-card-head"><span>{fit === "women" ? copy.poloWomen : copy.poloMen}</span><strong>{copy.allMeasurements}</strong></div><div className="native-size-table-wrap"><table className="native-size-table"><thead><tr><th>{copy.sizeColumn}</th><th>{copy.widthColumn}</th><th>{copy.lengthColumn}</th></tr></thead><tbody>{poloSizeRows[fit].map(([size, width, length]) => <tr key={size}><th scope="row">{size}</th><td>{width}</td><td>{length}</td></tr>)}</tbody></table></div><p>{copy.poloMeasureNote}</p></div></>}
+          {product.id === "polo" && <><div className="size-guide-tabs" role="tablist">{(["women", "men", "kids"] as const).map((value) => <button key={value} type="button" role="tab" aria-selected={poloFit === value} className={poloFit === value ? "active" : ""} onClick={() => setPoloFit(value)}>{poloFitLabels[value]}</button>)}</div><div className="native-size-card"><div className="native-size-card-head"><span>{poloFitTitle[poloFit]}</span><strong>{copy.allMeasurements}</strong></div><div className="native-size-table-wrap"><table className="native-size-table"><thead><tr><th>{copy.sizeColumn}</th><th>{copy.widthColumn}</th><th>{copy.lengthColumn}</th></tr></thead><tbody>{poloSizeRows[poloFit].map(([size, width, length]) => <tr key={size}><th scope="row">{size}</th><td>{width}</td><td>{length}</td></tr>)}</tbody></table></div><p>{poloFit === "kids" ? copy.poloKidsMeasureNote : copy.poloMeasureNote}</p></div></>}
           {product.id === "uniform" && <><div className="size-guide-tabs" role="tablist"><button type="button" role="tab" aria-selected={fit === "women"} className={fit === "women" ? "active" : ""} onClick={() => setFit("women")}>{copy.child}</button><button type="button" role="tab" aria-selected={fit === "men"} className={fit === "men" ? "active" : ""} onClick={() => setFit("men")}>{copy.adult}</button></div><div className="native-size-card"><div className="native-size-card-head"><span>{fit === "women" ? copy.uniformChild : copy.uniformAdult}</span><strong>{copy.allMeasurements}</strong></div><div className="native-size-table-wrap"><table className="native-size-table uniform-size-table"><thead><tr><th>{copy.parameterColumn}</th>{uniformSizeCharts[fit].sizes.map((size) => <th key={size}>{size}</th>)}</tr></thead><tbody>{uniformSizeCharts[fit].rows.map((values, rowIndex) => <tr key={copy.uniformRows[rowIndex]}><th scope="row">{copy.uniformRows[rowIndex]}</th>{values.map((value, index) => <td key={`${rowIndex}-${uniformSizeCharts[fit].sizes[index]}`}>{value}</td>)}</tr>)}</tbody></table></div><p>{copy.uniformMeasureNote}</p></div></>}
         </section>
       </div>}

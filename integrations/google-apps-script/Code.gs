@@ -12,7 +12,7 @@ const TARGETS = Object.freeze({
   merch_polo: Object.freeze({
     spreadsheetId: "1vNE_niTuRsqTh_IfzxsjJTKR53l3Xb7CnEirOgUk6Yo",
     sheetName: "Аркуш1",
-    valueCount: 6,
+    valueCount: 7,
   }),
   merch_uniform: Object.freeze({
     spreadsheetId: "1MvwuZCxcWkzOttGmY7hgnOOqlCaE4Btwn4mo0_nIZEU",
