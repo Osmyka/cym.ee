@@ -112,6 +112,47 @@ test("badminton and all three merch products route to their own sheets", async (
   ]);
 });
 
+test("svoi club registration accepts a Thursday and rejects other weekdays", async () => {
+  const forwarded = [];
+  globalThis.fetch = async (_url, init) => {
+    forwarded.push(JSON.parse(init.body));
+    return Response.json({ ok: true });
+  };
+
+  const values = {
+    visit_date: "2026-11-05",
+    name: "Anna Ivanenko",
+    age: "16",
+    other_activity: "school",
+    contact: "+372 5555 5555",
+    instagram: "@anna",
+    email: "anna@example.com",
+    payer_name: "Olena Ivanenko",
+    filming: "yes",
+    materials: "no",
+  };
+  const response = await worker.fetch(request({
+    kind: "svoi",
+    startedAt: Date.now() - 5_000,
+    website: "",
+    values,
+  }), validEnv, {});
+  assert.equal(response.status, 200);
+  assert.deepEqual(forwarded[0].target, "svoi");
+  assert.deepEqual(forwarded[0].values, [
+    "2026-11-05", "Anna Ivanenko", 16, "Школа вихідного дня СУМ", "+372 5555 5555",
+    "@anna", "anna@example.com", "Olena Ivanenko", "Так", "Ні",
+  ]);
+
+  const wrongDay = await worker.fetch(request({
+    kind: "svoi",
+    startedAt: Date.now() - 5_000,
+    website: "",
+    values: { ...values, visit_date: "2026-11-06" },
+  }), validEnv, {});
+  assert.equal(wrongDay.status, 400);
+});
+
 test("cross-origin and honeypot submissions are rejected without forwarding", async () => {
   let calls = 0;
   globalThis.fetch = async () => {

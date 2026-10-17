@@ -800,3 +800,38 @@ section[id] {
     width: 34px;
   }
 }
+
+.svoi-hero h1 { font-size:clamp(46px,5.4vw,78px); }
+.svoi-hero em { color:#2c63a5; }
+.svoi-hero > img { width:100%; height:340px; max-height:none; object-fit:cover; border-radius:8px; filter:drop-shadow(0 18px 28px rgba(13,50,101,.16)); }
+.svoi-info > div { min-height:124px; }
+.svoi-info .info-note { margin:8px 0 0; color:var(--muted); font-size:13px; line-height:1.45; }
+.svoi-info .map-address { display:inline-block; margin-top:8px; font-size:14px; font-weight:800; text-decoration:underline; text-underline-offset:3px; }
+.svoi-coins { padding:90px max(7vw,28px) 104px; display:grid; grid-template-columns:minmax(260px,380px) 1fr; gap:56px; align-items:center; background:#f7f9fc; }
+.svoi-coins h2 { margin-top:24px; }
+.svoi-coins h2 i { color:#2c63a5; }
+.svoi-coins p { max-width:34em; margin:22px 0 0; color:var(--muted); font-size:17px; line-height:1.65; }
+.coin-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.coin-card { min-height:168px; padding:26px 18px; border:1px solid #e2e6ec; border-radius:8px; background:white; }
+.coin-card b { display:block; margin-bottom:22px; color:#2c63a5; font-size:32px; font-weight:500; }
+.coin-card strong { display:block; color:var(--navy); font-size:16px; line-height:1.35; }
+.svoi-lead { max-width:520px; margin:-12px 0 8px; color:var(--muted); font-size:15px; line-height:1.55; }
+.form-section-label { margin:6px 0 0; color:#8b96a4; font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+.form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.field-hint { color:#8792a0; font-size:12px; font-weight:600; line-height:1.35; }
+.choice-group { margin:0; padding:0; border:0; display:grid; gap:10px; }
+.choice-group legend { padding:0; color:var(--navy); font-size:13px; font-weight:800; }
+.choice-options { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.registration-form .choice-option { min-height:52px; display:flex; align-items:center; gap:9px; padding:12px 13px; border:1px solid #dce4ec; border-radius:9px; background:white; color:var(--navy); font-size:14px; font-weight:700; line-height:1.35; cursor:pointer; }
+.choice-option.full { grid-column:1 / -1; }
+.registration-form .choice-option input { width:auto; height:auto; margin:0; padding:0; accent-color:#2c63a5; box-shadow:none; }
+.choice-option:has(input:checked) { border-color:#2c63a5; background:#edf4fb; }
+
+@media (max-width:760px) {
+  .svoi-hero h1 { font-size:clamp(42px,12vw,64px); }
+  .svoi-hero > img { height:220px; }
+  .svoi-coins { padding:72px 24px 80px; display:block; }
+  .svoi-coins .coin-grid { margin-top:28px; grid-template-columns:1fr; }
+  .form-grid-2,.choice-options { grid-template-columns:1fr; }
+  .choice-option.full { grid-column:auto; }
+}

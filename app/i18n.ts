@@ -43,6 +43,20 @@ type RegistrationCopy = {
   note?: string;
 };
 
+type SvoiRegistrationCopy = RegistrationCopy & {
+  lead: string;
+  address: string;
+  firstMeeting: string;
+  dateHint: string;
+  dateError: string;
+  payerHint: string;
+  sections: { visit: string; activity: string; contacts: string; media: string };
+  activities: Array<{ value: "school" | "volya" | "badminton" | "hub" | "none"; label: string }>;
+  consentYes: string;
+  consentNo: string;
+  priceNote: string;
+};
+
 export type Dictionary = {
   metadata: { title: string; description: string };
   common: {
@@ -133,6 +147,21 @@ export type Dictionary = {
     info: Array<{ label: string; value: string }>;
     galleryAlts: string[];
     registration: RegistrationCopy;
+  };
+  svoi: {
+    kicker: string;
+    title: [string, string, string];
+    description: string;
+    heroAlt: string;
+    sectionLabel: string;
+    sectionTitle: [string, string];
+    sectionText: string;
+    info: Array<{ label: string; value: string; note?: string; address?: string }>;
+    coinsLabel: string;
+    coinsTitle: [string, string];
+    coinsIntro: string;
+    coins: Array<{ value: string; text: string }>;
+    registration: SvoiRegistrationCopy;
   };
   merch: {
     sectionLabel: string;
@@ -249,7 +278,7 @@ const uk: Dictionary = {
       { title: "Англійська мова", text: "Напрям у розробці", facts: [] },
       { title: "Шахи", text: "Напрям у розробці", facts: [] },
       { title: "Група продовженого дня", text: "Напрям у розробці", facts: [] },
-      { title: "Ігри для підлітків та молоді", text: "Напрям у розробці", facts: [] },
+      { title: "СВОЇ club", text: "Молодіжний клуб для підлітків та молоді. Настільні ігри, «Мафія», квізи та живе спілкування українською.", facts: ["11–20 років", "Четвер · 18:45–19:45", "Maneeži 3"] },
     ],
     details: "Детальніше",
     development: "Напрям у розробці",
@@ -343,6 +372,59 @@ const uk: Dictionary = {
     registration: {
       trigger: "Реєстрація на бадмінтон", closeAria: "Закрити форму", successLabel: "Надіслано ✓", thanks: "Дякуємо!", successText: "Реєстрацію надіслано до таблиці бадмінтону. Інформацію про оплату ви отримаєте електронною поштою.", close: "Закрити", eyebrow: "Бадмінтон · Таллінн", title: ["Реєстрація", "на гру."], submit: "Надіслати реєстрацію", sending: "Надсилаємо…", fallbackText: "Автоматичне надсилання не спрацювало. Ми відкрили підготовлений лист — надішліть його, щоб заявка не загубилася.", fallbackLink: "Відкрити лист ще раз", note: "📧 Після заповнення форми на вашу електронну пошту буде надіслано рахунок для оплати.",
       fields: { name: "Імʼя та прізвище латиницею", age: "Вік", contact: "Контактний номер телефону та нікнейм у Telegram", email: "Email" },
+    },
+  },
+  svoi: {
+    kicker: "05 / Молодь",
+    title: ["СВОЇ club.", "Більше, ніж", "просто ігри."],
+    description: "Молодіжний клуб СУМ для підлітків та молоді 11–20 років. У СВОЇ club не потрібно бути кимось іншим, щоб стати своїм. Тут можна бути собою, знайомитися, помилятися, перемагати, програвати, жартувати та просто добре проводити час.",
+    heroAlt: "Настільні ігри, картки та кубики на столі",
+    sectionLabel: "Ігри та живе спілкування",
+    sectionTitle: ["Граємо.", "Стаємо своїми."],
+    sectionText: "Без уроків, оцінок і домашніх завдань. Настільні ігри, «Мафія», квізи, командні змагання та розмови українською, які допомагають зберігати зв’язок з Україною.",
+    info: [
+      { label: "Вік", value: "11–20 років" },
+      { label: "Розклад", value: "Четвер · 18:45–19:45" },
+      { label: "Формат", value: "Настільні та стратегічні ігри, «Мафія», квізи" },
+      { label: "Вартість", value: "5 € — одна зустріч\nДля учасників інших платних активностей СУМ і VOLYA — знижка 10%", note: "Рахунок на оплату приходить після реєстрації." },
+      { label: "Атмосфера", value: "Друзі, однодумці та дружнє українськомовне середовище" },
+      { label: "Старт", value: "5 листопада", address: "Maneeži 3, 4 поверх" },
+    ],
+    coinsLabel: "Клубні бонуси",
+    coinsTitle: ["СВОЇ", "coins."],
+    coinsIntro: "За кожну оплачену зустріч учасник отримує один клубний жетон.",
+    coins: [
+      { value: "8", text: "жетонів = безкоштовна зустріч" },
+      { value: "12", text: "жетонів = подарунок від клубу" },
+      { value: "+1", text: "жетон, якщо приведеш нового друга" },
+    ],
+    registration: {
+      trigger: "Реєстрація до СВОЇ club", closeAria: "Закрити реєстрацію", successLabel: "Надіслано ✓", thanks: "Дякуємо!", successText: "Реєстрацію надіслано. Рахунок для оплати надійде на вказану електронну пошту.", close: "Закрити", eyebrow: "СВОЇ CLUB · ТАЛЛІНН", title: ["Реєстрація", "до клубу."], submit: "Надіслати реєстрацію", sending: "Надсилаємо…", fallbackText: "Автоматичне надсилання не спрацювало. Ми відкрили підготовлений лист — надішліть його, щоб заявка не загубилася.", fallbackLink: "Відкрити лист ще раз",
+      lead: "Щочетверга · 18:45–19:45 ·", address: "Maneeži 3, 4 поверх", firstMeeting: "Перша зустріч — 5 листопада.",
+      dateHint: "Оберіть четвер, починаючи з 5 листопада.", dateError: "Оберіть четвер для зустрічі клубу.", payerHint: "Для неповнолітнього учасника вкажіть ім’я одного з батьків.",
+      sections: { visit: "Зустріч та учасник", activity: "Участь в інших активностях", contacts: "Контакти та рахунок", media: "Фото та відео" },
+      activities: [
+        { value: "school", label: "Школа вихідного дня СУМ" },
+        { value: "volya", label: "VOLYA" },
+        { value: "badminton", label: "Бадмінтон" },
+        { value: "hub", label: "CYM hub" },
+        { value: "none", label: "Не є учасником інших активностей СУМ або VOLYA" },
+      ],
+      consentYes: "Так", consentNo: "Ні",
+      priceNote: "Вартість зустрічі — 5 €. Для учасників інших платних активностей СУМ і VOLYA діє знижка 10%.",
+      note: "Після реєстрації на вказану електронну пошту надходить рахунок для оплати.",
+      fields: {
+        visitDate: "На яку дату реєструєтеся?",
+        age: "Вік учасника",
+        name: "Ім’я та прізвище учасника латиницею",
+        otherActivity: "Чи є учасником платних активностей СУМ в Естонії або VOLYA?",
+        phone: "Контактний номер телефону",
+        instagram: "Нікнейм в Instagram",
+        email: "Email",
+        payerName: "Ім’я та прізвище для рахунку латиницею",
+        filming: "Дозвіл на фото та відеозйомку",
+        materials: "Дозвіл на використання фото та відеоматеріалів у рамках роботи СУМ в Естонії",
+      },
     },
   },
   merch: {
