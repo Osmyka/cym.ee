@@ -8,7 +8,7 @@ const activityConfig = [
   { image: "", tone: "blue", href: "/#contact", development: true },
   { image: "", tone: "yellow", href: "/#contact", development: true },
   { image: "", tone: "green", href: "/#contact", development: true },
-  { image: "", tone: "blue", href: "/#contact", development: true },
+  { image: "/assets/svoi-club-hero.webp", tone: "blue", href: "/svoi-club" },
 ] as const;
 
 const gallery = [

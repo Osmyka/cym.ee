@@ -50,9 +50,9 @@ test("server-renders each language with matching metadata and language links", a
 
 test("server-renders every public route in Ukrainian, Estonian and English", async () => {
   const routes = [
-    ["/school", /Школа/], ["/badminton", /Бадмінтон/], ["/merch", /Мерч/],
-    ["/et/school", /nädalavahetuskool/i], ["/et/badminton", /Sulgpall/], ["/et/merch", /Meened/],
-    ["/en/school", /weekend school/i], ["/en/badminton", /Badminton/], ["/en/merch", /Merch/],
+    ["/school", /Школа/], ["/badminton", /Бадмінтон/], ["/svoi-club", /СВОЇ club/], ["/merch", /Мерч/],
+    ["/et/school", /nädalavahetuskool/i], ["/et/badminton", /Sulgpall/], ["/et/svoi-club", /Saame omadeks/], ["/et/merch", /Meened/],
+    ["/en/school", /weekend school/i], ["/en/badminton", /Badminton/], ["/en/svoi-club", /We belong/], ["/en/merch", /Merch/],
   ];
 
   for (const [pathname, expectedText] of routes) {

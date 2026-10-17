@@ -5,7 +5,7 @@ type OrderEnv = {
 
 type JsonRecord = Record<string, unknown>;
 type NormalizedSubmission = {
-  target: "school" | "badminton" | "merch_polo" | "merch_uniform" | "merch_badminton";
+  target: "school" | "badminton" | "svoi" | "merch_polo" | "merch_uniform" | "merch_badminton";
   values: Array<string | number>;
 };
 
@@ -87,6 +87,54 @@ function normalizeBadminton(values: JsonRecord): NormalizedSubmission {
   };
 }
 
+const svoiActivities = {
+  school: "Школа вихідного дня СУМ",
+  volya: "VOLYA",
+  badminton: "Бадмінтон",
+  hub: "CYM hub",
+  none: "Не є учасником інших активностей СУМ або VOLYA",
+} as const;
+
+const svoiConsent = { yes: "Так", no: "Ні" } as const;
+const SVOI_FIRST_MEETING = "2026-11-05";
+
+function thursdayOnOrAfter(record: JsonRecord, key: string, minIso: string) {
+  const value = field(record, key, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || value < minIso) throw new ValidationError(`${key} is invalid`);
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (
+    date.getUTCFullYear() !== year
+    || date.getUTCMonth() !== month - 1
+    || date.getUTCDate() !== day
+    || date.getUTCDay() !== 4
+  ) {
+    throw new ValidationError(`${key} is invalid`);
+  }
+  return value;
+}
+
+function normalizeSvoi(values: JsonRecord): NormalizedSubmission {
+  const activity = choice(values, "other_activity", Object.keys(svoiActivities));
+  const filming = choice(values, "filming", Object.keys(svoiConsent));
+  const materials = choice(values, "materials", Object.keys(svoiConsent));
+  return {
+    target: "svoi",
+    values: [
+      thursdayOnOrAfter(values, "visit_date", SVOI_FIRST_MEETING),
+      field(values, "name", 160),
+      integer(values, "age", 11, 20),
+      svoiActivities[activity as keyof typeof svoiActivities],
+      field(values, "contact", 160),
+      field(values, "instagram", 80),
+      email(values),
+      field(values, "payer_name", 160),
+      svoiConsent[filming as keyof typeof svoiConsent],
+      svoiConsent[materials as keyof typeof svoiConsent],
+    ],
+  };
+}
+
 const poloSizes = [
   "XS (42)", "S (44)", "M (46)", "L (48)", "XL (50)", "2XL (52)", "3XL (54–56)",
   "XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL",
@@ -149,6 +197,7 @@ function normalize(payload: JsonRecord): NormalizedSubmission {
 
   if (payload.kind === "school") return normalizeSchool(payload.values);
   if (payload.kind === "badminton") return normalizeBadminton(payload.values);
+  if (payload.kind === "svoi") return normalizeSvoi(payload.values);
   if (payload.kind === "merch") return normalizeMerch(payload.productId, payload.values);
   throw new ValidationError("kind is invalid");
 }

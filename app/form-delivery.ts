@@ -1,6 +1,6 @@
 "use client";
 
-type FormKind = "school" | "badminton" | "merch";
+type FormKind = "school" | "badminton" | "svoi" | "merch";
 
 type SubmitOptions = {
   form: HTMLFormElement;
@@ -31,6 +31,12 @@ const fallbackLabels: Record<string, string> = {
   contact: "Контакт",
   time_in_estonia: "Як довго мешкаєте в Естонії",
   questions: "Запитання",
+  visit_date: "Дата зустрічі",
+  other_activity: "Інша активність",
+  instagram: "Instagram",
+  payer_name: "Ім’я для рахунку",
+  filming: "Дозвіл на зйомку",
+  materials: "Дозвіл на використання матеріалів",
 };
 
 function formValues(form: HTMLFormElement) {
