@@ -82,8 +82,9 @@ export default function SvoiClubRegistration({ copy }: { copy: Copy }) {
             <label>{copy.fields.phone}<input name="contact" type="tel" autoComplete="tel" placeholder="+372 …" required /></label>
             <div className="form-grid-2">
               <label>{copy.fields.instagram}<input name="instagram" type="text" placeholder="@nickname" autoComplete="off" required /></label>
-              <label>{copy.fields.email}<input name="email" type="email" autoComplete="email" placeholder="name@example.com" required /></label>
+              <label>{copy.fields.telegram}<input name="telegram" type="text" placeholder="@nickname" autoComplete="off" required /></label>
             </div>
+            <label>{copy.fields.email}<input name="email" type="email" autoComplete="email" placeholder="name@example.com" required /></label>
             <label>{copy.fields.payerName}<input name="payer_name" autoComplete="name" placeholder="Olena Ivanenko" required /><small className="field-hint">{copy.payerHint}</small></label>
             <p className="form-section-label">{copy.sections.media}</p>
             <fieldset className="choice-group">

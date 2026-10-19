@@ -270,7 +270,7 @@ main { padding-top:95px; }
   padding-bottom: 30px;
 }
 
-/* Three primary cards, then four compact development cards. */
+/* Three activities on the first row, two live pages on the second, coming-soon cards last. */
 .activity-grid {
   grid-template-columns: repeat(12, minmax(0, 1fr));
 }
@@ -281,6 +281,14 @@ main { padding-top:95px; }
 
 .activity-grid > .development-card {
   grid-column: span 3;
+}
+
+@media (min-width: 761px) {
+  .activity-grid > .activity-card:nth-child(4),
+  .activity-grid > .activity-card:nth-child(5),
+  .activity-grid > .development-card {
+    grid-column: span 6;
+  }
 }
 
 @media (max-width: 760px) {
@@ -804,9 +812,9 @@ section[id] {
 .svoi-hero h1 { font-size:clamp(46px,5.4vw,78px); }
 .svoi-hero em { color:#2c63a5; }
 .svoi-hero > img { width:100%; height:340px; max-height:none; object-fit:cover; border-radius:8px; filter:drop-shadow(0 18px 28px rgba(13,50,101,.16)); }
-.svoi-info > div { min-height:124px; }
-.svoi-info .info-note { margin:8px 0 0; color:var(--muted); font-size:13px; line-height:1.45; }
-.svoi-info .map-address { display:inline-block; margin-top:8px; font-size:14px; font-weight:800; text-decoration:underline; text-underline-offset:3px; }
+.svoi-info > div,.hub-info > div { min-height:124px; }
+.svoi-info .info-note,.hub-info .info-note { margin:8px 0 0; color:var(--muted); font-size:13px; line-height:1.45; }
+.svoi-info .map-address,.hub-info .map-address { display:inline-block; margin-top:8px; font-size:14px; font-weight:800; text-decoration:underline; text-underline-offset:3px; }
 .svoi-coins { padding:90px max(7vw,28px) 104px; display:grid; grid-template-columns:minmax(260px,380px) 1fr; gap:56px; align-items:center; background:#f7f9fc; }
 .svoi-coins h2 { margin-top:24px; }
 .svoi-coins h2 i { color:#2c63a5; }
@@ -834,4 +842,58 @@ section[id] {
   .svoi-coins .coin-grid { margin-top:28px; grid-template-columns:1fr; }
   .form-grid-2,.choice-options { grid-template-columns:1fr; }
   .choice-option.full { grid-column:auto; }
+}
+
+.hub-hero h1 { font-size:clamp(46px,5.4vw,78px); }
+.hub-hero em,.hub-hero + .detail-body h2 i,.hub-band h2 i,.hub-split h2 i,.hub-pricing h2 i { color:#c4920a; }
+.hub-hero > img { width:100%; height:340px; max-height:none; object-fit:cover; border-radius:8px; filter:drop-shadow(0 18px 28px rgba(13,50,101,.16)); }
+.hub-band { background:#f7f9fc; }
+.hub-band h2,.hub-split h2,.hub-pricing h2,.hub-closing h2 { margin-top:24px; }
+.hub-intro { max-width:38em; margin:22px 0 0; color:var(--muted); font-size:17px; line-height:1.65; }
+.hub-option-grid { margin-top:48px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.hub-option { min-height:220px; padding:26px 22px; border:1px solid #e2e6ec; border-radius:8px; background:white; }
+.hub-kicker { color:#c4920a; font-size:12px; font-weight:800; letter-spacing:.08em; }
+.hub-option h3 { margin:18px 0 10px; font-size:22px; }
+.hub-option p { margin:0; color:var(--muted); font-size:15px; line-height:1.55; }
+.hub-split { display:grid; grid-template-columns:minmax(260px,420px) 1fr; gap:56px; align-items:start; background:white; }
+.hub-principle-list { display:grid; }
+.hub-principle { display:grid; grid-template-columns:52px 1fr; gap:8px 16px; padding:18px 0; border-top:1px solid #e2e6ec; }
+.hub-principle:last-child { border-bottom:1px solid #e2e6ec; }
+.hub-principle b { color:#c4920a; font-size:20px; font-weight:500; }
+.hub-principle h3 { margin:0 0 6px; font-size:20px; }
+.hub-principle p { margin:0; color:var(--muted); font-size:15px; line-height:1.5; }
+.hub-pricing { padding:105px max(7vw,28px); display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:start; background:#f7f9fc; }
+.hub-pricing-points { margin-top:28px; display:grid; gap:14px; }
+.hub-pricing-points article { padding:18px 20px; border:1px solid #e2e6ec; border-radius:8px; background:white; }
+.hub-pricing-points strong { display:block; margin-bottom:8px; color:var(--navy); font-size:16px; }
+.hub-pricing-points p { margin:0; color:var(--muted); font-size:15px; line-height:1.5; }
+.hub-price-panel { padding:28px 26px; border-radius:10px; background:var(--navy); color:white; }
+.hub-price-panel .section-label { color:var(--yellow); }
+.hub-price-row { display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid rgba(255,255,255,.16); font-size:16px; }
+.hub-price-row strong { color:white; font-size:18px; }
+.hub-price-foot { margin:18px 0 0; color:rgba(255,255,255,.78); font-size:14px; line-height:1.5; }
+.hub-teacher-card { padding:32px 28px; border:1px solid #f0e0b0; border-radius:10px; background:#fff8e8; }
+.hub-teacher-card h3 { margin:0 0 8px; font-size:32px; }
+.hub-role { margin:0 0 18px; color:#8a6a12; font-size:14px; font-weight:800; line-height:1.4; }
+.hub-teacher-card p { margin:0 0 12px; color:var(--muted); font-size:16px; line-height:1.6; }
+.hub-why-intro { margin-bottom:8px; }
+.hub-why-grid { margin-top:36px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.hub-why-grid article { padding:26px 22px; border:1px solid #e2e6ec; border-radius:8px; background:white; }
+.hub-why-grid h3 { margin:0 0 10px; font-size:22px; }
+.hub-why-grid p { margin:0; color:var(--muted); font-size:15px; line-height:1.55; }
+.hub-closing { padding:105px max(7vw,28px); background:var(--navy); color:white; }
+.hub-closing .section-label { color:var(--yellow); }
+.hub-closing h2 { color:white; }
+.hub-closing h2 i { color:var(--yellow); }
+.hub-closing p { max-width:16em; margin:28px 0 0; color:white; font-size:clamp(22px,3vw,34px); letter-spacing:-.04em; line-height:1.25; }
+.hub-form .choice-option input { accent-color:#c4920a; }
+.hub-form .choice-option:has(input:checked) { border-color:#c4920a; background:#fff8e8; }
+
+@media (max-width:760px) {
+  .hub-hero h1 { font-size:clamp(42px,12vw,64px); }
+  .hub-hero > img { height:220px; }
+  .hub-option-grid,.hub-why-grid { grid-template-columns:1fr; }
+  .hub-split,.hub-pricing { display:block; }
+  .hub-principle-list,.hub-teacher-card,.hub-price-panel,.hub-why-grid { margin-top:28px; }
+  .hub-pricing,.hub-closing { padding:72px 24px 80px; }
 }

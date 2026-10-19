@@ -9,6 +9,16 @@ const TARGETS = Object.freeze({
     sheetName: "Аркуш1",
     valueCount: 4,
   }),
+  svoi: Object.freeze({
+    spreadsheetId: "1marpDQ2Axb9MJj8uTfXNP7Iea2SFUi2_h1_wS-ZhN9Q",
+    sheetName: "Аркуш1",
+    valueCount: 11,
+  }),
+  hub: Object.freeze({
+    spreadsheetId: "1BP3ZcgDepIkgsTrlD5af3HFxYNQlsgGmFL1hHerNnY0",
+    sheetName: "Аркуш1",
+    valueCount: 10,
+  }),
   merch_polo: Object.freeze({
     spreadsheetId: "1vNE_niTuRsqTh_IfzxsjJTKR53l3Xb7CnEirOgUk6Yo",
     sheetName: "Аркуш1",

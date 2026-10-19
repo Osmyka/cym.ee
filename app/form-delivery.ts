@@ -1,6 +1,6 @@
 "use client";
 
-type FormKind = "school" | "badminton" | "svoi" | "merch";
+type FormKind = "school" | "badminton" | "svoi" | "hub" | "merch";
 
 type SubmitOptions = {
   form: HTMLFormElement;
@@ -37,6 +37,8 @@ const fallbackLabels: Record<string, string> = {
   payer_name: "Ім’я для рахунку",
   filming: "Дозвіл на зйомку",
   materials: "Дозвіл на використання матеріалів",
+  name_uk: "Ім’я та прізвище кирилицею",
+  telegram: "Telegram",
 };
 
 function formValues(form: HTMLFormElement) {

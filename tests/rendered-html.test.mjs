@@ -50,9 +50,9 @@ test("server-renders each language with matching metadata and language links", a
 
 test("server-renders every public route in Ukrainian, Estonian and English", async () => {
   const routes = [
-    ["/school", /Школа/], ["/badminton", /Бадмінтон/], ["/svoi-club", /СВОЇ club/], ["/merch", /Мерч/],
-    ["/et/school", /nädalavahetuskool/i], ["/et/badminton", /Sulgpall/], ["/et/svoi-club", /Saame omadeks/], ["/et/merch", /Meened/],
-    ["/en/school", /weekend school/i], ["/en/badminton", /Badminton/], ["/en/svoi-club", /We belong/], ["/en/merch", /Merch/],
+    ["/school", /Школа/], ["/badminton", /Бадмінтон/], ["/cym-hub", /CYM Hub/], ["/svoi-club", /СВОЇ club/], ["/merch", /Мерч/],
+    ["/et/school", /nädalavahetuskool/i], ["/et/badminton", /Sulgpall/], ["/et/cym-hub", /CYM Hub/], ["/et/svoi-club", /Saame omadeks/], ["/et/merch", /Meened/],
+    ["/en/school", /weekend school/i], ["/en/badminton", /Badminton/], ["/en/cym-hub", /after school/i], ["/en/svoi-club", /We belong/], ["/en/merch", /Merch/],
   ];
 
   for (const [pathname, expectedText] of routes) {
@@ -60,6 +60,15 @@ test("server-renders every public route in Ukrainian, Estonian and English", asy
     assert.equal(response.status, 200, pathname);
     assert.match(await response.text(), expectedText, pathname);
   }
+});
+
+test("homepage lists live activities before the coming-soon cards", async () => {
+  const html = await (await render("/")).text();
+  const hub = html.indexOf(">CYM Hub<");
+  const svoi = html.indexOf(">СВОЇ club<");
+  const english = html.indexOf(">Англійська мова<");
+  const chess = html.indexOf(">Шахи<");
+  assert.ok(hub > 0 && svoi > hub && english > svoi && chess > english);
 });
 
 test("redirects legacy about links to the current localized about section", async () => {
