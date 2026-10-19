@@ -97,7 +97,7 @@ const svoiActivities = {
 
 const svoiConsent = { yes: "Так", no: "Ні" } as const;
 const SVOI_FIRST_MEETING = "2026-11-05";
-const HUB_FIRST_VISIT = "2026-11-02";
+const HUB_FIRST_VISIT = "2026-11-04";
 
 function dateOnAllowedWeekday(record: JsonRecord, key: string, minIso: string, allowedDays: readonly number[]) {
   const value = field(record, key, 10);
@@ -143,7 +143,7 @@ function normalizeHub(values: JsonRecord): NormalizedSubmission {
   return {
     target: "hub",
     values: [
-      dateOnAllowedWeekday(values, "visit_date", HUB_FIRST_VISIT, [1, 3]),
+      dateOnAllowedWeekday(values, "visit_date", HUB_FIRST_VISIT, [3, 5]),
       field(values, "name", 160),
       field(values, "name_uk", 160),
       integer(values, "age", 6, 18),

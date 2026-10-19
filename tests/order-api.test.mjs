@@ -154,7 +154,7 @@ test("svoi club registration accepts a Thursday and rejects other weekdays", asy
   assert.equal(wrongDay.status, 400);
 });
 
-test("hub registration accepts Monday and Wednesday and rejects other days", async () => {
+test("hub registration accepts Wednesday and Friday and rejects other days", async () => {
   const forwarded = [];
   globalThis.fetch = async (_url, init) => {
     forwarded.push(JSON.parse(init.body));
@@ -162,7 +162,7 @@ test("hub registration accepts Monday and Wednesday and rejects other days", asy
   };
 
   const values = {
-    visit_date: "2026-11-02",
+    visit_date: "2026-11-04",
     name: "Anna Ivanenko",
     name_uk: "Анна Іваненко",
     age: "8",
@@ -173,34 +173,34 @@ test("hub registration accepts Monday and Wednesday and rejects other days", asy
     filming: "yes",
     materials: "no",
   };
-  const monday = await worker.fetch(request({
+  const wednesday = await worker.fetch(request({
     kind: "hub",
     startedAt: Date.now() - 5_000,
     website: "",
     values,
   }), validEnv, {});
-  assert.equal(monday.status, 200);
+  assert.equal(wednesday.status, 200);
   assert.deepEqual(forwarded[0].target, "hub");
   assert.deepEqual(forwarded[0].values, [
-    "2026-11-02", "Anna Ivanenko", "Анна Іваненко", 8, "+372 5555 5555",
+    "2026-11-04", "Anna Ivanenko", "Анна Іваненко", 8, "+372 5555 5555",
     "@anna", "anna@example.com", "Olena Ivanenko", "Так", "Ні",
   ]);
 
-  const wednesday = await worker.fetch(request({
+  const friday = await worker.fetch(request({
     kind: "hub",
     startedAt: Date.now() - 5_000,
     website: "",
-    values: { ...values, visit_date: "2026-11-04" },
+    values: { ...values, visit_date: "2026-11-06" },
   }), validEnv, {});
-  assert.equal(wednesday.status, 200);
+  assert.equal(friday.status, 200);
 
-  const tuesday = await worker.fetch(request({
+  const monday = await worker.fetch(request({
     kind: "hub",
     startedAt: Date.now() - 5_000,
     website: "",
-    values: { ...values, visit_date: "2026-11-03" },
+    values: { ...values, visit_date: "2026-11-02" },
   }), validEnv, {});
-  assert.equal(tuesday.status, 400);
+  assert.equal(monday.status, 400);
 });
 
 test("cross-origin and honeypot submissions are rejected without forwarding", async () => {

@@ -15,7 +15,7 @@ function validateVisitDate(input: HTMLInputElement, message: string) {
     return;
   }
   const day = new Date(`${input.value}T12:00:00`).getDay();
-  input.setCustomValidity(day === 1 || day === 3 ? "" : message);
+  input.setCustomValidity(day === 3 || day === 5 ? "" : message);
 }
 
 export default function HubRegistration({ copy }: { copy: Copy }) {
@@ -66,7 +66,7 @@ export default function HubRegistration({ copy }: { copy: Copy }) {
             <label className="form-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
             <p className="form-section-label">{copy.sections.visit}</p>
             <div className="form-grid-2">
-              <label>{copy.fields.visitDate}<input name="visit_date" type="date" min="2026-11-02" required onInput={(event) => validateVisitDate(event.currentTarget, copy.dateError)} /><small className="field-hint">{copy.dateHint}</small></label>
+              <label>{copy.fields.visitDate}<input name="visit_date" type="date" min="2026-11-04" required onInput={(event) => validateVisitDate(event.currentTarget, copy.dateError)} /><small className="field-hint">{copy.dateHint}</small></label>
               <label>{copy.fields.age}<input name="age" type="number" min="6" max="18" inputMode="numeric" placeholder="6–18" required /></label>
             </div>
             <label>{copy.fields.name}<input name="name" autoComplete="name" placeholder="Anna Ivanenko" required /></label>
