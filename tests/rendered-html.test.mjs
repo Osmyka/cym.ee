@@ -51,7 +51,7 @@ test("server-renders each language with matching metadata and language links", a
 test("server-renders every public route in Ukrainian, Estonian and English", async () => {
   const routes = [
     ["/school", /Школа/], ["/badminton", /Бадмінтон/], ["/cym-hub", /CYM Hub/], ["/svoi-club", /СВОЇ club/], ["/merch", /Мерч/],
-    ["/et/school", /nädalavahetuskool/i], ["/et/badminton", /Sulgpall/], ["/et/cym-hub", /CYM Hub/], ["/et/svoi-club", /Saame omadeks/], ["/et/merch", /Meened/],
+    ["/et/school", /Pühapäevakool/], ["/et/badminton", /Sulgpall/], ["/et/cym-hub", /CYM Hub/], ["/et/svoi-club", /Saame omadeks/], ["/et/merch", /Meened/],
     ["/en/school", /weekend school/i], ["/en/badminton", /Badminton/], ["/en/cym-hub", /after school/i], ["/en/svoi-club", /We belong/], ["/en/merch", /Merch/],
   ];
 
