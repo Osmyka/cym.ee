@@ -5,7 +5,7 @@ type OrderEnv = {
 
 type JsonRecord = Record<string, unknown>;
 type NormalizedSubmission = {
-  target: "school" | "badminton" | "svoi" | "merch_polo" | "merch_uniform" | "merch_badminton";
+  target: "school" | "badminton" | "svoi" | "hub" | "merch_polo" | "merch_uniform" | "merch_badminton";
   values: Array<string | number>;
 };
 
@@ -97,8 +97,9 @@ const svoiActivities = {
 
 const svoiConsent = { yes: "Так", no: "Ні" } as const;
 const SVOI_FIRST_MEETING = "2026-11-05";
+const HUB_FIRST_VISIT = "2026-11-02";
 
-function thursdayOnOrAfter(record: JsonRecord, key: string, minIso: string) {
+function dateOnAllowedWeekday(record: JsonRecord, key: string, minIso: string, allowedDays: readonly number[]) {
   const value = field(record, key, 10);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || value < minIso) throw new ValidationError(`${key} is invalid`);
   const [year, month, day] = value.split("-").map(Number);
@@ -107,7 +108,7 @@ function thursdayOnOrAfter(record: JsonRecord, key: string, minIso: string) {
     date.getUTCFullYear() !== year
     || date.getUTCMonth() !== month - 1
     || date.getUTCDate() !== day
-    || date.getUTCDay() !== 4
+    || !allowedDays.includes(date.getUTCDay())
   ) {
     throw new ValidationError(`${key} is invalid`);
   }
@@ -121,12 +122,33 @@ function normalizeSvoi(values: JsonRecord): NormalizedSubmission {
   return {
     target: "svoi",
     values: [
-      thursdayOnOrAfter(values, "visit_date", SVOI_FIRST_MEETING),
-      field(values, "name", 160),
+      dateOnAllowedWeekday(values, "visit_date", SVOI_FIRST_MEETING, [4]),
       integer(values, "age", 11, 20),
+      field(values, "name", 160),
       svoiActivities[activity as keyof typeof svoiActivities],
       field(values, "contact", 160),
+      field(values, "telegram", 80),
       field(values, "instagram", 80),
+      email(values),
+      field(values, "payer_name", 160),
+      svoiConsent[filming as keyof typeof svoiConsent],
+      svoiConsent[materials as keyof typeof svoiConsent],
+    ],
+  };
+}
+
+function normalizeHub(values: JsonRecord): NormalizedSubmission {
+  const filming = choice(values, "filming", Object.keys(svoiConsent));
+  const materials = choice(values, "materials", Object.keys(svoiConsent));
+  return {
+    target: "hub",
+    values: [
+      dateOnAllowedWeekday(values, "visit_date", HUB_FIRST_VISIT, [1, 3]),
+      field(values, "name", 160),
+      field(values, "name_uk", 160),
+      integer(values, "age", 6, 18),
+      field(values, "contact", 160),
+      field(values, "telegram", 80),
       email(values),
       field(values, "payer_name", 160),
       svoiConsent[filming as keyof typeof svoiConsent],
@@ -198,6 +220,7 @@ function normalize(payload: JsonRecord): NormalizedSubmission {
   if (payload.kind === "school") return normalizeSchool(payload.values);
   if (payload.kind === "badminton") return normalizeBadminton(payload.values);
   if (payload.kind === "svoi") return normalizeSvoi(payload.values);
+  if (payload.kind === "hub") return normalizeHub(payload.values);
   if (payload.kind === "merch") return normalizeMerch(payload.productId, payload.values);
   throw new ValidationError("kind is invalid");
 }

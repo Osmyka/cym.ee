@@ -5,10 +5,10 @@ const activityConfig = [
   { image: "/assets/school-class-new.jpeg", tone: "blue", href: "/school" },
   { image: "/assets/volya-stage-dancers.webp", tone: "yellow", href: "https://volyaensemble.ee/", external: true },
   { image: "/assets/badminton-group-new.webp", tone: "green", href: "/badminton" },
-  { image: "", tone: "blue", href: "/#contact", development: true },
-  { image: "", tone: "yellow", href: "/#contact", development: true },
-  { image: "", tone: "green", href: "/#contact", development: true },
+  { image: "/assets/cym-hub-hero.webp", tone: "yellow", href: "/cym-hub" },
   { image: "/assets/svoi-club-hero.webp", tone: "blue", href: "/svoi-club" },
+  { image: "", tone: "green", href: "/#contact", development: true },
+  { image: "", tone: "blue", href: "/#contact", development: true },
 ] as const;
 
 const gallery = [

@@ -14,7 +14,7 @@ const sectionIds: Exclude<MobileNavId, "merch">[] = ["about", "activities", "gal
 
 function activePage(currentPath: string): MobileNavId {
   if (currentPath === "/merch") return "merch";
-  if (currentPath === "/school" || currentPath === "/badminton" || currentPath === "/svoi-club") return "activities";
+  if (currentPath === "/school" || currentPath === "/badminton" || currentPath === "/cym-hub" || currentPath === "/svoi-club") return "activities";
   return "about";
 }
 
