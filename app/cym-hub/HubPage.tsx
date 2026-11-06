@@ -21,7 +21,6 @@ export default function HubPage({ locale }: { locale: Locale }) {
         <h1>{copy.title[0]}<br /><em>{copy.title[1]}<br />{copy.title[2]}</em></h1>
         <p>{copy.description}</p>
       </div>
-      <img src="/assets/cym-hub-hero.webp" alt={copy.heroAlt} />
     </section>
     <section className="detail-body">
       <div>
