@@ -118,13 +118,14 @@ export default function DrawingRegistration({ copy, locale }: { copy: Copy; loca
               <label className="choice-option full"><input type="checkbox" name="data_consent" value="yes" required /><span>{copy.fields.dataConsentYes}</span></label>
             </fieldset>
             <fieldset className="choice-group">
-              <legend>{copy.fields.filming} <span className="required-mark">*</span></legend>
-              <label className="choice-option full"><input type="checkbox" name="filming" value="yes" required /><span>{copy.fields.filmingYes}</span></label>
+              <legend>{copy.fields.filming}</legend>
+              <label className="choice-option full"><input type="checkbox" name="filming" value="yes" /><span>{copy.fields.filmingYes}</span></label>
             </fieldset>
             <fieldset className="choice-group">
-              <legend>{copy.fields.materials} <span className="required-mark">*</span></legend>
-              <label className="choice-option full"><input type="checkbox" name="materials" value="yes" required /><span>{copy.fields.materialsYes}</span></label>
+              <legend>{copy.fields.materials}</legend>
+              <label className="choice-option full"><input type="checkbox" name="materials" value="yes" /><span>{copy.fields.materialsYes}</span></label>
             </fieldset>
+            <p className="registration-note">{copy.consentNote}</p>
             <p className="registration-note">{copy.priceNote}</p>
             <button className="button button-dark" type="submit" disabled={status === "submitting"}>{status === "submitting" ? copy.sending : copy.submit} <span>↗</span></button>
             {status === "fallback" && <p className="form-delivery-error">{copy.fallbackText} <a href={fallbackHref}>{copy.fallbackLink}</a></p>}

@@ -235,8 +235,8 @@ function normalizeDrawing(values: JsonRecord): NormalizedSubmission {
       field(values, "contact", 160),
       email(values),
       requiredConsent(values, "data_consent"),
-      requiredConsent(values, "filming"),
-      requiredConsent(values, "materials"),
+      consentAnswer(values, "filming", false),
+      consentAnswer(values, "materials", false),
     ],
   };
 }

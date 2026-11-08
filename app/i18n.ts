@@ -74,6 +74,7 @@ type DrawingRegistrationCopy = RegistrationCopy & {
   dateHint: string;
   dateError: string;
   chooseDate: string;
+  consentNote: string;
   priceNote: string;
 };
 
@@ -662,6 +663,7 @@ const uk: Dictionary = {
       dateHint: "Заняття відбуваються щосуботи о 14:00.",
       dateError: "Ця дата вже минула. Оберіть майбутню суботу.",
       chooseDate: "Оберіть суботу",
+      consentNote: "Згоди на зйомку та використання фото й відео можна не надавати — це не вплине на реєстрацію.",
       priceNote: "Вартість — 5 € за заняття. Учасники платних активностей СУМ отримують знижку 10%.",
       note: "Після реєстрації команда СУМ зв’яжеться з вами.",
       fields: {
