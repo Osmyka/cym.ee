@@ -254,6 +254,19 @@ test("drawing registration accepts an upcoming Saturday and writes consent as ye
     "olena@example.com", "Так", "Так", "Так",
   ]);
 
+  const withoutPhotoConsent = { ...values };
+  delete withoutPhotoConsent.filming;
+  delete withoutPhotoConsent.materials;
+  const optionalConsent = await worker.fetch(request({
+    kind: "drawing",
+    startedAt: Date.now() - 5_000,
+    website: "",
+    values: withoutPhotoConsent,
+  }), validEnv, {});
+  assert.equal(optionalConsent.status, 200);
+  assert.equal(forwarded[1].values[7], "Ні");
+  assert.equal(forwarded[1].values[8], "Ні");
+
   const friday = new Date(`${classDate}T00:00:00Z`);
   friday.setUTCDate(friday.getUTCDate() - 1);
   const wrongDay = await worker.fetch(request({

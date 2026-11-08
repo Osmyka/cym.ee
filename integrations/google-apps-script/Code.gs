@@ -24,6 +24,11 @@ const TARGETS = Object.freeze({
     sheetName: "Аркуш1",
     valueCount: 9,
   }),
+  cinema: Object.freeze({
+    spreadsheetId: "1W7dx2s5yq27-xy2AMYnr-Jx3ZoJPNDPGNRAFS1ts_9M",
+    sheetName: "Аркуш1",
+    valueCount: 9,
+  }),
   merch_polo: Object.freeze({
     spreadsheetId: "1vNE_niTuRsqTh_IfzxsjJTKR53l3Xb7CnEirOgUk6Yo",
     sheetName: "Аркуш1",

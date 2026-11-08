@@ -326,6 +326,7 @@ const en: Dictionary = {
       dateHint: "Classes are every Saturday at 14:00.",
       dateError: "This date has already passed. Choose an upcoming Saturday.",
       chooseDate: "Choose a Saturday",
+      consentNote: "You can skip consent for filming and for the use of photos and videos. Registration does not depend on it.",
       priceNote: "The fee is €5 per class. Members of paid CYM activities receive a 10% discount.",
       note: "After registration, the team will contact you.",
       fields: {

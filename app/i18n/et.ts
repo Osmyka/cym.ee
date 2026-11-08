@@ -326,6 +326,7 @@ const et: Dictionary = {
       dateHint: "Tunnid toimuvad igal laupäeval kell 14:00.",
       dateError: "See kuupäev on juba möödas. Valige tulevane laupäev.",
       chooseDate: "Valige laupäev",
+      consentNote: "Nõusoleku salvestuseks ning fotode ja videote kasutamiseks võib andmata jätta. See ei mõjuta registreerimist.",
       priceNote: "Tasu on 5 € korra eest. Tasuliste CYM-i tegevuste osalejad saavad 10% soodustust.",
       note: "Pärast registreerimist võtab meeskond teiega ühendust.",
       fields: {
