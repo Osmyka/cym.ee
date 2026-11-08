@@ -5,7 +5,7 @@ type OrderEnv = {
 
 type JsonRecord = Record<string, unknown>;
 type NormalizedSubmission = {
-  target: "school" | "badminton" | "svoi" | "hub" | "merch_polo" | "merch_uniform" | "merch_badminton";
+  target: "school" | "badminton" | "svoi" | "hub" | "drawing" | "cinema" | "merch_polo" | "merch_uniform" | "merch_badminton";
   values: Array<string | number>;
 };
 
@@ -40,6 +40,12 @@ function field(record: JsonRecord, key: string, maxLength: number, required = tr
 function email(record: JsonRecord) {
   const value = field(record, "email", 254);
   if (!EMAIL_PATTERN.test(value)) throw new ValidationError("email is invalid");
+  return value;
+}
+
+function optionalEmail(record: JsonRecord) {
+  const value = field(record, "email", 254, false);
+  if (value && !EMAIL_PATTERN.test(value)) throw new ValidationError("email is invalid");
   return value;
 }
 
@@ -137,6 +143,104 @@ function normalizeSvoi(values: JsonRecord): NormalizedSubmission {
   };
 }
 
+const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+function tallinnParts(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Tallinn",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    hourCycle: "h23",
+    weekday: "short",
+  }).formatToParts(date);
+  const get = (type: string) => parts.find((part) => part.type === type)?.value ?? "";
+  return {
+    year: Number(get("year")),
+    month: Number(get("month")),
+    day: Number(get("day")),
+    hour: Number(get("hour").replace(/\D/g, "")),
+    weekday: get("weekday"),
+  };
+}
+
+function cinemaMinIso() {
+  const { year, month, day, hour, weekday } = tallinnParts();
+  const start = new Date(Date.UTC(year, month - 1, day));
+  let offset = (1 - weekdays.indexOf(weekday) + 7) % 7;
+  if (offset === 0 && hour >= 18) offset = 7;
+  start.setUTCDate(start.getUTCDate() + offset);
+  return start.toISOString().slice(0, 10);
+}
+
+function consentAnswer(values: JsonRecord, key: string, required: boolean) {
+  const value = field(values, key, 8, required);
+  if (!value) return "Ні";
+  if (value !== "yes" && value !== "no") throw new ValidationError(`${key} is invalid`);
+  if (required && value !== "yes") throw new ValidationError(`${key} is invalid`);
+  return value === "yes" ? "Так" : "Ні";
+}
+
+function normalizeCinema(values: JsonRecord): NormalizedSubmission {
+  const minIso = cinemaMinIso();
+  const sessionDate = dateOnAllowedWeekday(values, "session_date", minIso, [1]);
+  const latest = new Date(`${minIso}T00:00:00Z`);
+  latest.setUTCDate(latest.getUTCDate() + 51 * 7);
+  if (sessionDate > latest.toISOString().slice(0, 10)) throw new ValidationError("session_date is invalid");
+  const age = integer(values, "age", 1, 110);
+  return {
+    target: "cinema",
+    values: [
+      sessionDate,
+      field(values, "name", 160),
+      age,
+      age < 18 ? field(values, "representative_name", 160) : "",
+      field(values, "contact", 160),
+      optionalEmail(values),
+      consentAnswer(values, "data_consent", true),
+      consentAnswer(values, "filming", false),
+      consentAnswer(values, "materials", false),
+    ],
+  };
+}
+
+function drawingMinIso() {
+  const { year, month, day, hour, weekday } = tallinnParts();
+  const start = new Date(Date.UTC(year, month - 1, day));
+  let offset = (6 - weekdays.indexOf(weekday) + 7) % 7;
+  if (offset === 0 && hour >= 14) offset = 7;
+  start.setUTCDate(start.getUTCDate() + offset);
+  return start.toISOString().slice(0, 10);
+}
+
+function requiredConsent(values: JsonRecord, key: string) {
+  choice(values, key, ["yes"]);
+  return "Так";
+}
+
+function normalizeDrawing(values: JsonRecord): NormalizedSubmission {
+  const minIso = drawingMinIso();
+  const classDate = dateOnAllowedWeekday(values, "class_date", minIso, [6]);
+  const latest = new Date(`${minIso}T00:00:00Z`);
+  latest.setUTCDate(latest.getUTCDate() + 51 * 7);
+  if (classDate > latest.toISOString().slice(0, 10)) throw new ValidationError("class_date is invalid");
+  return {
+    target: "drawing",
+    values: [
+      classDate,
+      field(values, "child_name", 160),
+      integer(values, "age", 1, 10),
+      field(values, "parent_name", 160),
+      field(values, "contact", 160),
+      email(values),
+      requiredConsent(values, "data_consent"),
+      requiredConsent(values, "filming"),
+      requiredConsent(values, "materials"),
+    ],
+  };
+}
+
 function normalizeHub(values: JsonRecord): NormalizedSubmission {
   const filming = choice(values, "filming", Object.keys(svoiConsent));
   const materials = choice(values, "materials", Object.keys(svoiConsent));
@@ -221,6 +325,8 @@ function normalize(payload: JsonRecord): NormalizedSubmission {
   if (payload.kind === "badminton") return normalizeBadminton(payload.values);
   if (payload.kind === "svoi") return normalizeSvoi(payload.values);
   if (payload.kind === "hub") return normalizeHub(payload.values);
+  if (payload.kind === "drawing") return normalizeDrawing(payload.values);
+  if (payload.kind === "cinema") return normalizeCinema(payload.values);
   if (payload.kind === "merch") return normalizeMerch(payload.productId, payload.values);
   throw new ValidationError("kind is invalid");
 }

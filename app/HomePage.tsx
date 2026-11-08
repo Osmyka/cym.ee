@@ -5,10 +5,10 @@ const activityConfig = [
   { image: "/assets/school-class-new.jpeg", tone: "blue", href: "/school" },
   { image: "/assets/volya-stage-dancers.webp", tone: "yellow", href: "https://volyaensemble.ee/", external: true },
   { image: "/assets/badminton-group-new.webp", tone: "green", href: "/badminton" },
-  { image: "/assets/cym-hub-hero.webp", tone: "yellow", href: "/cym-hub" },
-  { image: "/assets/svoi-club-hero.webp", tone: "blue", href: "/svoi-club" },
-  { image: "", tone: "green", href: "/#contact", development: true },
-  { image: "", tone: "blue", href: "/#contact", development: true },
+  { image: "", tone: "yellow", href: "/cym-hub" },
+  { image: "", tone: "blue", href: "/svoi-club" },
+  { image: "", tone: "green", href: "/malyvania" },
+  { image: "", tone: "yellow", href: "/kinoclub" },
 ] as const;
 
 const gallery = [
@@ -90,8 +90,8 @@ export default function HomePage({ locale }: { locale: Locale }) {
             const config = activityConfig[index];
             const href = config.external ? config.href : localizedPath(locale, config.href);
             return (
-              <article className={`activity-card ${config.tone}${config.development ? " development-card" : ""}`} key={item.title}>
-                {!config.development && (
+              <article className={`activity-card ${config.tone}${config.image ? "" : " text-card"}`} key={item.title}>
+                {config.image && (
                   <a className="card-image" href={href} aria-label={`${copy.openActivity}: ${item.title}`}>
                     <img src={config.image} alt="" loading="lazy" decoding="async" />
                   </a>
@@ -99,8 +99,8 @@ export default function HomePage({ locale }: { locale: Locale }) {
                 <div className="card-number">0{index + 1}</div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-                {!config.development && <ul className="card-facts">{item.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul>}
-                {!config.development && <a href={href} aria-label={`${copy.details}: ${item.title}`}>{copy.details} <span>↗</span></a>}
+                <ul className="card-facts">{item.facts.map((fact) => <li key={fact}>{fact}</li>)}</ul>
+                <a href={href} aria-label={`${copy.details}: ${item.title}`}>{copy.details} <span>↗</span></a>
               </article>
             );
           })}

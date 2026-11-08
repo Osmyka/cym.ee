@@ -203,6 +203,157 @@ test("hub registration accepts Wednesday and Friday and rejects other days", asy
   assert.equal(monday.status, 400);
 });
 
+function nextDrawingSaturday() {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Tallinn",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    hourCycle: "h23",
+    weekday: "short",
+  }).formatToParts(new Date());
+  const get = (type) => parts.find((part) => part.type === type).value;
+  const start = new Date(Date.UTC(Number(get("year")), Number(get("month")) - 1, Number(get("day"))));
+  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  let offset = (6 - weekdays.indexOf(get("weekday")) + 7) % 7;
+  if (offset === 0 && Number(get("hour").replace(/\D/g, "")) >= 14) offset = 7;
+  start.setUTCDate(start.getUTCDate() + offset);
+  return start.toISOString().slice(0, 10);
+}
+
+test("drawing registration accepts an upcoming Saturday and writes consent as yes", async () => {
+  const forwarded = [];
+  globalThis.fetch = async (_url, init) => {
+    forwarded.push(JSON.parse(init.body));
+    return Response.json({ ok: true });
+  };
+
+  const classDate = nextDrawingSaturday();
+  const values = {
+    class_date: classDate,
+    child_name: "Anna Ivanenko",
+    age: "8",
+    parent_name: "Olena Ivanenko",
+    contact: "+372 5555 5555",
+    email: "olena@example.com",
+    data_consent: "yes",
+    filming: "yes",
+    materials: "yes",
+  };
+  const response = await worker.fetch(request({
+    kind: "drawing",
+    startedAt: Date.now() - 5_000,
+    website: "",
+    values,
+  }), validEnv, {});
+  assert.equal(response.status, 200);
+  assert.deepEqual(forwarded[0].target, "drawing");
+  assert.deepEqual(forwarded[0].values, [
+    classDate, "Anna Ivanenko", 8, "Olena Ivanenko", "+372 5555 5555",
+    "olena@example.com", "Так", "Так", "Так",
+  ]);
+
+  const friday = new Date(`${classDate}T00:00:00Z`);
+  friday.setUTCDate(friday.getUTCDate() - 1);
+  const wrongDay = await worker.fetch(request({
+    kind: "drawing",
+    startedAt: Date.now() - 5_000,
+    website: "",
+    values: { ...values, class_date: friday.toISOString().slice(0, 10) },
+  }), validEnv, {});
+  assert.equal(wrongDay.status, 400);
+
+  const tooOld = await worker.fetch(request({
+    kind: "drawing",
+    startedAt: Date.now() - 5_000,
+    website: "",
+    values: { ...values, age: "11" },
+  }), validEnv, {});
+  assert.equal(tooOld.status, 400);
+});
+
+function nextCinemaMonday() {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Tallinn",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    hourCycle: "h23",
+    weekday: "short",
+  }).formatToParts(new Date());
+  const get = (type) => parts.find((part) => part.type === type).value;
+  const start = new Date(Date.UTC(Number(get("year")), Number(get("month")) - 1, Number(get("day"))));
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  let offset = (1 - days.indexOf(get("weekday")) + 7) % 7;
+  if (offset === 0 && Number(get("hour").replace(/\D/g, "")) >= 18) offset = 7;
+  start.setUTCDate(start.getUTCDate() + offset);
+  return start.toISOString().slice(0, 10);
+}
+
+test("cinema registration requires a guardian for minors and keeps filming optional", async () => {
+  const forwarded = [];
+  globalThis.fetch = async (_url, init) => {
+    forwarded.push(JSON.parse(init.body));
+    return Response.json({ ok: true });
+  };
+
+  const sessionDate = nextCinemaMonday();
+  const minor = {
+    session_date: sessionDate,
+    name: "Anna Ivanenko",
+    age: "12",
+    representative_name: "Olena Ivanenko",
+    contact: "+372 5555 5555",
+    email: "",
+    data_consent: "yes",
+    filming: "yes",
+  };
+  const response = await worker.fetch(request({
+    kind: "cinema",
+    startedAt: Date.now() - 5_000,
+    website: "",
+    values: minor,
+  }), validEnv, {});
+  assert.equal(response.status, 200);
+  assert.deepEqual(forwarded[0].target, "cinema");
+  assert.deepEqual(forwarded[0].values, [
+    sessionDate, "Anna Ivanenko", 12, "Olena Ivanenko", "+372 5555 5555",
+    "", "Так", "Так", "Ні",
+  ]);
+
+  const adult = await worker.fetch(request({
+    kind: "cinema",
+    startedAt: Date.now() - 5_000,
+    website: "",
+    values: { ...minor, age: "30", representative_name: "Should be ignored", email: "anna@example.com", filming: "no" },
+  }), validEnv, {});
+  assert.equal(adult.status, 200);
+  assert.equal(forwarded[1].values[2], 30);
+  assert.equal(forwarded[1].values[3], "");
+  assert.equal(forwarded[1].values[5], "anna@example.com");
+  assert.equal(forwarded[1].values[7], "Ні");
+
+  const noGuardian = await worker.fetch(request({
+    kind: "cinema",
+    startedAt: Date.now() - 5_000,
+    website: "",
+    values: { ...minor, representative_name: "" },
+  }), validEnv, {});
+  assert.equal(noGuardian.status, 400);
+
+  const tuesday = new Date(`${sessionDate}T00:00:00Z`);
+  tuesday.setUTCDate(tuesday.getUTCDate() + 1);
+  const wrongDay = await worker.fetch(request({
+    kind: "cinema",
+    startedAt: Date.now() - 5_000,
+    website: "",
+    values: { ...minor, session_date: tuesday.toISOString().slice(0, 10) },
+  }), validEnv, {});
+  assert.equal(wrongDay.status, 400);
+});
+
 test("cross-origin and honeypot submissions are rejected without forwarding", async () => {
   let calls = 0;
   globalThis.fetch = async () => {

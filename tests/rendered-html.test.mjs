@@ -50,9 +50,9 @@ test("server-renders each language with matching metadata and language links", a
 
 test("server-renders every public route in Ukrainian, Estonian and English", async () => {
   const routes = [
-    ["/school", /Школа/], ["/badminton", /Бадмінтон/], ["/cym-hub", /CYM Hub/], ["/svoi-club", /СВОЇ club/], ["/merch", /Мерч/],
-    ["/et/school", /Pühapäevakool/], ["/et/badminton", /Sulgpall/], ["/et/cym-hub", /CYM Hub/], ["/et/svoi-club", /Saame omadeks/], ["/et/merch", /Meened/],
-    ["/en/school", /weekend school/i], ["/en/badminton", /Badminton/], ["/en/cym-hub", /after school/i], ["/en/svoi-club", /We belong/], ["/en/merch", /Merch/],
+    ["/school", /Школа/], ["/badminton", /Бадмінтон/], ["/cym-hub", /CYM Hub/], ["/svoi-club", /СВОЇ club/], ["/malyvania", /Малювання/], ["/kinoclub", /Кіноклуб/], ["/merch", /Мерч/],
+    ["/et/school", /Pühapäevakool/], ["/et/badminton", /Sulgpall/], ["/et/cym-hub", /CYM Hub/], ["/et/svoi-club", /Saame omadeks/], ["/et/malyvania", /Joonistamine/], ["/et/kinoclub", /Kinoklubi/], ["/et/merch", /Meened/],
+    ["/en/school", /weekend school/i], ["/en/badminton", /Badminton/], ["/en/cym-hub", /after school/i], ["/en/svoi-club", /We belong/], ["/en/malyvania", /Drawing/], ["/en/kinoclub", /film club/i], ["/en/merch", /Merch/],
   ];
 
   for (const [pathname, expectedText] of routes) {
@@ -62,13 +62,34 @@ test("server-renders every public route in Ukrainian, Estonian and English", asy
   }
 });
 
-test("homepage lists live activities before the coming-soon cards", async () => {
-  const html = await (await render("/")).text();
-  const hub = html.indexOf(">CYM Hub<");
-  const svoi = html.indexOf(">СВОЇ club<");
-  const english = html.indexOf(">Англійська мова<");
-  const chess = html.indexOf(">Шахи<");
-  assert.ok(hub > 0 && svoi > hub && english > svoi && chess > english);
+test("homepage lists hub and svoi as text cards and omits unfinished activities", async () => {
+  const pages = [
+    ["/", ["Англійська мова", "Шахи"]],
+    ["/et", ["Inglise keel", "Male"]],
+    ["/en", ["English language", "Chess"]],
+  ];
+
+  for (const [pathname, removed] of pages) {
+    const html = await (await render(pathname)).text();
+    const hub = html.indexOf(">CYM Hub<");
+    const svoi = html.indexOf(">СВОЇ club<");
+    const drawingTitle = { "/": ">Малювання<", "/et": ">Joonistamine<", "/en": ">Drawing<" }[pathname];
+    const cinemaTitle = { "/": ">Кіноклуб СУМ<", "/et": ">CYM-i kinoklubi<", "/en": ">CYM film club<" }[pathname];
+    const drawing = html.indexOf(drawingTitle);
+    const cinema = html.indexOf(cinemaTitle);
+    assert.ok(hub > 0 && svoi > hub && drawing > svoi && cinema > drawing, pathname);
+    assert.equal(html.includes("cym-hub-hero.webp"), false, pathname);
+    assert.equal(html.includes("svoi-club-hero.webp"), false, pathname);
+    for (const title of removed) assert.equal(html.includes(`>${title}<`), false, `${pathname} ${title}`);
+  }
+});
+
+test("hub and svoi pages render without hero photos", async () => {
+  for (const pathname of ["/cym-hub", "/svoi-club", "/et/cym-hub", "/et/svoi-club", "/en/cym-hub", "/en/svoi-club"]) {
+    const html = await (await render(pathname)).text();
+    assert.equal(html.includes("cym-hub-hero.webp"), false, pathname);
+    assert.equal(html.includes("svoi-club-hero.webp"), false, pathname);
+  }
 });
 
 test("redirects legacy about links to the current localized about section", async () => {
